@@ -34,21 +34,6 @@ function loadOpenedSet() {
 function saveOpenedSet(set) {
   localStorage.setItem("opened_presents", JSON.stringify([...set]));
 }
-
-function seedFirstVisit(openedSet, ps) {
-  try {
-    const seeded = localStorage.getItem("initial_seed_done");
-    if (seeded === "1" || openedSet.size > 0) return openedSet;
-
-    const sorted = sortPresents(ps);
-    const keepUnopened = 2;
-    const toPreOpen = sorted.slice(0, Math.max(0, sorted.length - keepUnopened));
-    for (const p of toPreOpen) openedSet.add(p.image_id);
-    saveOpenedSet(openedSet);
-    localStorage.setItem("initial_seed_done", "1");
-  } catch {}
-  return openedSet;
-}
 function fmtDate(iso) {
   const d = new Date(iso);
   return d.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
@@ -254,9 +239,6 @@ async function main() {
 
   // Basic validation
   presents = presents.filter(p => p && p.image_id && p.open_at && p.image_path);
-
-  // On first visit, pre-open all but the last two presents
-  seedFirstVisit(openedSet, presents);
 
   // Initial render
   const now = new Date();
