@@ -34,6 +34,21 @@ function loadOpenedSet() {
 function saveOpenedSet(set) {
   localStorage.setItem("opened_presents", JSON.stringify([...set]));
 }
+
+function seedFirstVisit(openedSet, ps) {
+  try {
+    const seeded = localStorage.getItem("initial_seed_done");
+    if (seeded === "1" || openedSet.size > 0) return openedSet;
+
+    const sorted = sortPresents(ps);
+    const keepUnopened = 2;
+    const toPreOpen = sorted.slice(0, Math.max(0, sorted.length - keepUnopened));
+    for (const p of toPreOpen) openedSet.add(p.image_id);
+    saveOpenedSet(openedSet);
+    localStorage.setItem("initial_seed_done", "1");
+  } catch {}
+  return openedSet;
+}
 function fmtDate(iso) {
   const d = new Date(iso);
   return d.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
@@ -53,14 +68,11 @@ function sortPresents(ps) {
   return [...ps].sort((a,b) => new Date(a.open_at) - new Date(b.open_at));
 }
 
-function pickNextPresent(ps, now) {
-  // next not yet open OR open-but-not-opened-by-user (still the “current”)
+function pickCurrentPresent(ps, openedSet) {
   const sorted = sortPresents(ps);
-  for (const p of sorted) {
-    if (new Date(p.open_at) > now) return p;
-  }
-  // if all times passed, show latest (or null)
-  return sorted[sorted.length - 1] ?? null;
+  const unopened = sorted.filter(p => !openedSet.has(p.image_id));
+  if (unopened.length > 0) return unopened[0];
+  return sorted[sorted.length - 1] ?? null; // all opened → show last for viewing
 }
 
 function renderOpenedGallery(ps, openedSet, now) {
@@ -144,7 +156,7 @@ function startTick(openedSet) {
 
   tickTimer = setInterval(() => {
     const now = new Date();
-    nextPresent = pickNextPresent(presents, now);
+    nextPresent = pickCurrentPresent(presents, openedSet);
 
     // Always update countdown if the next present is still future
     if (nextPresent) updateCountdown(nextPresent, now);
@@ -243,9 +255,12 @@ async function main() {
   // Basic validation
   presents = presents.filter(p => p && p.image_id && p.open_at && p.image_path);
 
+  // On first visit, pre-open all but the last two presents
+  seedFirstVisit(openedSet, presents);
+
   // Initial render
   const now = new Date();
-  nextPresent = pickNextPresent(presents, now);
+  nextPresent = pickCurrentPresent(presents, openedSet);
   renderOpenedGallery(presents, openedSet, now);
 
   if (!nextPresent) {
@@ -275,6 +290,7 @@ async function main() {
 
     showGift(nextPresent);
     renderOpenedGallery(presents, openedSet, now2);
+    // After opening, the next tick will advance to the next unopened item
   });
 
   els.viewBtn.addEventListener("click", () => {
