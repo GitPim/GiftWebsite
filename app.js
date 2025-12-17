@@ -1,5 +1,5 @@
 const PRESENTS_URL = "presents.json";
-const UNOPENED_IMAGE = "images/unopened.png";
+const UNOPENED_IMAGE = "images/unopened.jpg";
 
 const els = {
   nextTitle: document.getElementById("nextTitle"),
