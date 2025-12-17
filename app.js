@@ -16,6 +16,7 @@ const els = {
   openedGrid: document.getElementById("openedGrid"),
   openedCount: document.getElementById("openedCount"),
   confetti: document.getElementById("confetti"),
+  subHeader: document.getElementById("subHeader"),
 };
 
 let presents = [];
@@ -66,6 +67,13 @@ function renderOpenedGallery(ps, openedSet, now) {
   const opened = sortPresents(ps).filter(p => new Date(p.open_at) <= now && openedSet.has(p.image_id));
   els.openedCount.textContent = String(opened.length);
   els.openedGrid.innerHTML = "";
+
+  // Update subheader with remaining (yet to be opened) count
+  const openedByUser = ps.filter(p => openedSet.has(p.image_id)).length;
+  const remaining = Math.max(0, ps.length - openedByUser);
+  if (els.subHeader) {
+    els.subHeader.textContent = `A new present unlocks over time. Unopened: ${remaining}`;
+  }
 
   if (opened.length === 0) {
     els.openedGrid.innerHTML = `<div class="small">No opened presents yet.</div>`;
