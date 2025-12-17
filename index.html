@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Presents Countdown</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <canvas id="confetti"></canvas>
+
+  <main class="container">
+    <header class="header">
+      <h1>🎁 My Presents</h1>
+      <p class="sub">A new present unlocks over time.</p>
+    </header>
+
+    <section class="card" id="nextCard">
+      <div class="cardHeader">
+        <h2 id="nextTitle">Loading…</h2>
+        <span class="pill" id="statusPill">—</span>
+      </div>
+
+      <div class="content">
+        <div class="presentStage">
+          <div id="presentWrapper" class="presentWrapper">
+            <img id="presentImg" alt="Present" />
+          </div>
+        </div>
+
+        <div class="side">
+          <div class="countdown">
+            <div class="label">Time until unlock</div>
+            <div class="timer" id="countdown">—</div>
+            <div class="small" id="openAtText"></div>
+          </div>
+
+          <button id="openBtn" class="btn" disabled>Open present</button>
+          <button id="viewBtn" class="btn secondary" style="display:none;">View again</button>
+
+          <div class="hint" id="hint"></div>
+        </div>
+      </div>
+
+      <div class="reveal" id="revealArea" hidden>
+        <h3>✨ Surprise!</h3>
+        <img id="giftImg" alt="Gift" class="giftImg" />
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="cardHeader">
+        <h2>Opened presents</h2>
+        <span class="pill" id="openedCount">0</span>
+      </div>
+      <div id="openedGrid" class="grid"></div>
+    </section>
+
+    <footer class="footer">
+      <span class="small">Tip: publish via GitHub Pages / Netlify / Cloudflare Pages.</span>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
