@@ -13,26 +13,27 @@ const els = {
   hint: document.getElementById("hint"),
   revealArea: document.getElementById("revealArea"),
   giftImg: document.getElementById("giftImg"),
-  openedGrid: document.getElementById("openedGrid"),
-  openedCount: document.getElementById("openedCount"),
+  revealedGrid: document.getElementById("revealedGrid"),
+  revealedCount: document.getElementById("revealedCount"),
   confetti: document.getElementById("confetti"),
   subHeader: document.getElementById("subHeader"),
+  revealAllBtn: document.getElementById("revealAllBtn"),
 };
 
 let presents = [];
 let tickTimer = null;
 let nextPresent = null;
 
-function loadOpenedSet() {
+function loadRevealedSet() {
   try {
-    const raw = localStorage.getItem("opened_presents");
+    const raw = localStorage.getItem("revealed_presents");
     return new Set(raw ? JSON.parse(raw) : []);
   } catch {
     return new Set();
   }
 }
-function saveOpenedSet(set) {
-  localStorage.setItem("opened_presents", JSON.stringify([...set]));
+function saveRevealedSet(set) {
+  localStorage.setItem("revealed_presents", JSON.stringify([...set]));
 }
 function fmtDate(iso) {
   const d = new Date(iso);
@@ -53,40 +54,40 @@ function sortPresents(ps) {
   return [...ps].sort((a,b) => new Date(a.open_at) - new Date(b.open_at));
 }
 
-function pickCurrentPresent(ps, openedSet) {
+function pickCurrentPresent(ps, revealedSet) {
   const sorted = sortPresents(ps);
-  const unopened = sorted.filter(p => !openedSet.has(p.image_id));
-  if (unopened.length > 0) return unopened[0];
+  const unrevealed = sorted.filter(p => !revealedSet.has(p.image_id));
+  if (unrevealed.length > 0) return unrevealed[0];
   return sorted[sorted.length - 1] ?? null; // all opened → show last for viewing
 }
 
-function renderOpenedGallery(ps, openedSet, now) {
-  const opened = sortPresents(ps).filter(p => new Date(p.open_at) <= now && openedSet.has(p.image_id));
-  els.openedCount.textContent = String(opened.length);
-  els.openedGrid.innerHTML = "";
+function renderRevealedGallery(ps, revealedSet, now) {
+  const revealed = sortPresents(ps).filter(p => new Date(p.open_at) <= now && revealedSet.has(p.image_id));
+  els.revealedCount.textContent = String(revealed.length);
+  els.revealedGrid.innerHTML = "";
 
-  // Update subheader with remaining (yet to be opened) count
-  const openedByUser = ps.filter(p => openedSet.has(p.image_id)).length;
-  const remaining = Math.max(0, ps.length - openedByUser);
+  // Update subheader with remaining unrevealed count
+  const revealedByUser = ps.filter(p => revealedSet.has(p.image_id)).length;
+  const remainingUnrevealed = Math.max(0, ps.length - revealedByUser);
   if (els.subHeader) {
-    els.subHeader.textContent = `A new present unlocks over time. Unopened: ${remaining}`;
+    els.subHeader.textContent = `A new present unlocks over time. Unrevealed: ${remainingUnrevealed}`;
   }
 
-  if (opened.length === 0) {
-    els.openedGrid.innerHTML = `<div class="small">No opened presents yet.</div>`;
+  if (revealed.length === 0) {
+    els.revealedGrid.innerHTML = `<div class="small">No revealed presents yet.</div>`;
     return;
   }
 
-  for (const p of opened.slice().reverse()) {
+  for (const p of revealed.slice().reverse()) {
     const tile = document.createElement("div");
     tile.className = "tile";
     tile.innerHTML = `
       <img src="${p.image_path}" alt="${p.title ?? p.image_id}" loading="lazy" />
       <div class="t">${p.title ?? p.image_id}</div>
-      <div class="d">Opened: ${fmtDate(p.open_at)}</div>
+      <div class="d">Unlocked: ${fmtDate(p.open_at)}</div>
     `;
     tile.addEventListener("click", () => showGift(p, { silent: true }));
-    els.openedGrid.appendChild(tile);
+    els.revealedGrid.appendChild(tile);
   }
 }
 
@@ -102,7 +103,7 @@ function showLocked(p, now) {
   updateCountdown(p, now);
 }
 
-function showUnlockedButNotOpened(p) {
+function showUnlockedNotRevealed(p) {
   els.nextTitle.textContent = p?.title ?? "Present";
   els.statusPill.textContent = "Unlocked";
   els.presentImg.src = UNOPENED_IMAGE;
@@ -116,7 +117,7 @@ function showUnlockedButNotOpened(p) {
 
 function showGift(p, { silent = false } = {}) {
   els.nextTitle.textContent = p?.title ?? "Present";
-  els.statusPill.textContent = "Opened";
+  els.statusPill.textContent = "Revealed";
   els.presentImg.src = UNOPENED_IMAGE;
   els.openBtn.disabled = true;
   els.viewBtn.style.display = "inline-block";
@@ -136,26 +137,26 @@ function updateCountdown(p, now) {
   els.countdown.textContent = fmtCountdown(diff);
 }
 
-function startTick(openedSet) {
+function startTick(revealedSet) {
   if (tickTimer) clearInterval(tickTimer);
 
   tickTimer = setInterval(() => {
     const now = new Date();
-    nextPresent = pickCurrentPresent(presents, openedSet);
+    nextPresent = pickCurrentPresent(presents, revealedSet);
 
     // Always update countdown if the next present is still future
     if (nextPresent) updateCountdown(nextPresent, now);
 
     // Keep gallery updated
-    renderOpenedGallery(presents, openedSet, now);
+    renderRevealedGallery(presents, revealedSet, now);
 
     if (!nextPresent) return;
 
     const isTime = new Date(nextPresent.open_at) <= now;
-    const isOpened = openedSet.has(nextPresent.image_id);
+    const isRevealed = revealedSet.has(nextPresent.image_id);
 
     if (!isTime) showLocked(nextPresent, now);
-    else if (!isOpened) showUnlockedButNotOpened(nextPresent);
+    else if (!isRevealed) showUnlockedNotRevealed(nextPresent);
     else showGift(nextPresent, { silent: true });
 
   }, 250);
@@ -231,7 +232,7 @@ function confettiBurst() {
 async function main() {
   els.presentImg.src = UNOPENED_IMAGE;
 
-  const openedSet = loadOpenedSet();
+  const revealedSet = loadRevealedSet();
 
   // Load config
   const res = await fetch(PRESENTS_URL, { cache: "no-store" });
@@ -242,8 +243,8 @@ async function main() {
 
   // Initial render
   const now = new Date();
-  nextPresent = pickCurrentPresent(presents, openedSet);
-  renderOpenedGallery(presents, openedSet, now);
+  nextPresent = pickCurrentPresent(presents, revealedSet);
+  renderRevealedGallery(presents, revealedSet, now);
 
   if (!nextPresent) {
     els.nextTitle.textContent = "No presents configured";
@@ -261,8 +262,8 @@ async function main() {
     if (!isTime) return;
 
     // Mark opened
-    openedSet.add(nextPresent.image_id);
-    saveOpenedSet(openedSet);
+    revealedSet.add(nextPresent.image_id);
+    saveRevealedSet(revealedSet);
 
     // Animate + confetti
     els.presentWrapper.classList.remove("opening");
@@ -271,17 +272,60 @@ async function main() {
     confettiBurst();
 
     showGift(nextPresent);
-    renderOpenedGallery(presents, openedSet, now2);
+    renderRevealedGallery(presents, revealedSet, now2);
     // After opening, the next tick will advance to the next unopened item
   });
 
   els.viewBtn.addEventListener("click", () => {
     const now2 = new Date();
-    renderOpenedGallery(presents, openedSet, now2);
+    // Find the last revealed present (most recently unlocked among revealed)
+    const revealedList = sortPresents(presents).filter(p => revealedSet.has(p.image_id));
+    if (revealedList.length > 0) {
+      const lastRevealed = revealedList[revealedList.length - 1];
+      revealedSet.delete(lastRevealed.image_id);
+      saveRevealedSet(revealedSet);
+    }
+
+    // Recompute current and refresh UI
+    nextPresent = pickCurrentPresent(presents, revealedSet);
+    renderRevealedGallery(presents, revealedSet, now2);
+
+    if (nextPresent) {
+      const isTime = new Date(nextPresent.open_at) <= now2;
+      const isRevealed = revealedSet.has(nextPresent.image_id);
+      if (!isTime) showLocked(nextPresent, now2);
+      else if (!isRevealed) showUnlockedNotRevealed(nextPresent);
+      else showGift(nextPresent, { silent: true });
+    }
+  });
+
+  // Reveal all previously unlocked presents except the latest unlocked
+  els.revealAllBtn.addEventListener("click", () => {
+    const now2 = new Date();
+    const unlocked = sortPresents(presents).filter(p => new Date(p.open_at) <= now2);
+    if (unlocked.length > 1) {
+      for (const p of unlocked.slice(0, -1)) {
+        revealedSet.add(p.image_id);
+      }
+      saveRevealedSet(revealedSet);
+    }
+
+    // Refresh UI state to reflect bulk reveal
+    nextPresent = pickCurrentPresent(presents, revealedSet);
+    if (nextPresent) updateCountdown(nextPresent, now2);
+    renderRevealedGallery(presents, revealedSet, now2);
+
+    if (nextPresent) {
+      const isTime = new Date(nextPresent.open_at) <= now2;
+      const isRevealed = revealedSet.has(nextPresent.image_id);
+      if (!isTime) showLocked(nextPresent, now2);
+      else if (!isRevealed) showUnlockedNotRevealed(nextPresent);
+      else showGift(nextPresent, { silent: true });
+    }
   });
 
   // Start ticking UI
-  startTick(openedSet);
+  startTick(revealedSet);
 }
 
 main().catch(err => {
