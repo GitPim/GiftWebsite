@@ -45,7 +45,49 @@
 
       <div class="reveal" id="revealArea" hidden>
         <h3>✨ Surprise!</h3>
-        <img id="giftImg" alt="Gift" class="giftImg" />
+        <div class="revealContent">
+          <img id="giftImg" alt="Gift" class="giftImg" />
+
+          <div id="wheelArea" class="wheelArea" hidden>
+            <div class="wheelWrap">
+              <div id="wheelRotator" class="wheelRotator">
+                <canvas id="wheelCanvas" width="360" height="360"></canvas>
+              </div>
+              <div class="wheelPointer" aria-hidden="true"></div>
+            </div>
+            <div class="wheelControls">
+              <button id="wheelSpinBtn" class="btn">Spin</button>
+              <button id="wheelRespinBtn" class="btn secondary" style="display:none">Spin again</button>
+              <div id="wheelResult" class="small"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="featuredCard" hidden>
+      <div class="cardHeader">
+        <h2>Last opened</h2>
+      </div>
+      <div class="reveal">
+        <div class="revealContent">
+          <img id="featuredImg" alt="Last opened gift" class="giftImg" />
+
+          <div id="featuredWheelArea" class="wheelArea" hidden>
+            <div class="wheelWrap">
+              <div id="featuredWheelRotator" class="wheelRotator">
+                <canvas id="featuredWheelCanvas" width="360" height="360"></canvas>
+              </div>
+              <div class="wheelPointer" aria-hidden="true"></div>
+            </div>
+            <div class="wheelControls">
+              <button id="featuredWheelSpinBtn" class="btn">Spin</button>
+              <button id="featuredWheelRespinBtn" class="btn secondary" style="display:none">Spin again</button>
+              <div id="featuredWheelResult" class="small"></div>
+            </div>
+          </div>
+        </div>
+        <div class="small" id="featuredMeta"></div>
       </div>
     </section>
 

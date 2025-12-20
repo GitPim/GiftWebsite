@@ -149,6 +149,15 @@ body{
   padding-top: 14px;
   border-top:1px solid var(--border);
 }
+.revealContent{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items:start;
+}
+@media (max-width: 820px){
+  .revealContent{grid-template-columns:1fr}
+}
 .giftImg{
   margin-top: 10px;
   width:min(520px, 100%);
@@ -156,6 +165,36 @@ body{
   border:1px solid var(--border);
   box-shadow: 0 18px 45px rgba(0,0,0,0.35);
 }
+
+/* Wheel component */
+.wheelArea{margin-top:14px}
+.wheelWrap{
+  position: relative;
+  width: min(380px, 100%);
+  margin-top: 10px;
+}
+.wheelRotator{
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition: transform 2.2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.wheelWrap canvas{width:100%; height:auto; display:block}
+.wheelPointer{
+  position:absolute;
+  top:-6px;
+  left:50%;
+  transform:translateX(-50%);
+  width:0; height:0;
+  border-left:10px solid transparent;
+  border-right:10px solid transparent;
+  border-bottom:16px solid var(--accent2);
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+}
+.wheelControls{display:flex; align-items:center; gap:8px; margin-top:10px}
+.wheelControls .small{margin-left:4px}
 
 /* Opening animation */
 .opening{
