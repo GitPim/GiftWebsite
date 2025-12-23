@@ -142,6 +142,33 @@ body{
   box-shadow:none;
 }
 
+/* Make spin buttons more prominent */
+#wheelSpinBtn,
+#featuredWheelSpinBtn{
+  padding: 14px 22px;
+  font-size: 18px;
+  letter-spacing: 0.2px;
+  background: linear-gradient(90deg, var(--accent2), #9d7bff);
+  box-shadow: 0 16px 40px rgba(45,226,230,0.35);
+  border: 0px solid rgba(255,255,255,0.14);
+  animation: spinBtnPulse 1.6s ease-in-out infinite;
+}
+#wheelSpinBtn:hover,
+#featuredWheelSpinBtn:hover{
+  transform: translateZ(0) scale(1.04);
+  box-shadow: 0 20px 50px rgba(45,226,230,0.45);
+}
+#wheelSpinBtn:disabled,
+#featuredWheelSpinBtn:disabled{
+  animation: none;
+  transform: none;
+}
+
+@keyframes spinBtnPulse{
+  0%, 100% { transform: translateZ(0) scale(1); }
+  50% { transform: translateZ(0) scale(1.05); }
+}
+
 .hint{color:var(--muted);font-size:13px;min-height:18px}
 
 .reveal{
@@ -179,18 +206,18 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  transition: transform 2.2s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: transform 15s cubic-bezier(0.19, 1, 0.22, 1);
 }
 .wheelWrap canvas{width:100%; height:auto; display:block}
 .wheelPointer{
   position:absolute;
   top:-6px;
   left:50%;
-  transform:translateX(-50%);
+  transform:translateX(-50%) rotate(180deg);
   width:0; height:0;
   border-left:10px solid transparent;
   border-right:10px solid transparent;
-  border-bottom:16px solid var(--accent2);
+  border-bottom:16px solid #8b0000; /* dark red */
   filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
 }
 .wheelControls{display:flex; align-items:center; gap:8px; margin-top:10px}

@@ -1,410 +1,422 @@
 [
   {
     "image_id": "gift_001",
-    "open_at": "2025-12-16T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "open_at": "2025-12-26T20:00:00+01:00",
+    "image_path": "images/provincies.png",
     "title": "Bezoek aan stad/dorp in provincie x",
     "action": "Spin the wheel to choose!",
-    "options": [
-      "Groningen",
-      "Friesland",
-      "Drenthe",
-      "Overijssel",
-      "Flevoland",
-      "Gelderland",
-      "Utrecht",
-      "Noord-Holland",
-      "Zuid-Holland",
-      "Zeeland",
-      "Noord-Brabant",
-      "Limburg"
-    ]
+    "options": {
+      "Groningen": { "color": "#EABAEB", "textColor": "black" },
+      "Friesland": { "color": "#BAEBBC", "textColor": "black" },
+      "Drenthe": { "color": "#B3F2F8", "textColor": "black" },
+      "Overijssel": { "color": "#DAAAC1", "textColor": "black" },
+      "Flevoland": { "color": "#A78211", "textColor": "black" },
+      "Gelderland": { "color": "#E6C312", "textColor": "black" },
+      "Utrecht": { "color": "#F8D6EE", "textColor": "black" },
+      "Noord-Holland": { "color": "#FFFF80", "textColor": "black" },
+      "Zuid-Holland": { "color": "#F47B6F", "textColor": "black" },
+      "Zeeland": { "color": "#F1DA98", "textColor": "black" },
+      "Noord-Brabant": { "color": "#51D442", "textColor": "black" },
+      "Limburg": { "color": "#84D3F5", "textColor": "black" }
+    }
   },
   {
     "image_id": "gift_002",
-    "open_at": "2025-12-18T20:00:00+01:00",
-    "image_path": "images/gift_002.png",
+    "open_at": "2026-01-02T20:00:00+01:00",
+    "image_path": "images/movie_night.webp",
     "title": "Filmavond"
   },
   {
     "image_id": "gift_003",
-    "open_at": "2025-12-20T17:11:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "open_at": "2026-01-09T20:00:00+01:00",
+    "image_path": "images/tiny_gift.png",
     "title": "Klein Cadeautje"
   },
   {
     "image_id": "gift_004",
-    "open_at": "2025-12-20T17:12:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "open_at": "2026-10-16T20:00:00+01:00",
+    "image_path": "images/bowling.webp",
     "title": "Bowlen"
   },
   {
     "image_id": "gift_005",
     "open_at": "2026-01-23T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/uit_eten.png",
     "title": "Uit eten"
   },
   {
     "image_id": "gift_006",
     "open_at": "2026-01-30T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/movie_night.webp",
     "title": "Filmavond"
   },
   {
     "image_id": "gift_007",
     "open_at": "2026-02-06T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/thuis_eten.png",
     "title": "Uitgebreid samen koken"
   },
   {
     "image_id": "gift_008",
     "open_at": "2026-02-13T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/skating.png",
     "title": "Schaatsen"
   },
   {
     "image_id": "gift_009",
     "open_at": "2026-02-20T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/provincies.png",
     "title": "Bezoek aan stad/dorp in provincie x",
     "action": "Spin the wheel to choose!",
-    "options": [
-      "Groningen",
-      "Friesland",
-      "Drenthe",
-      "Overijssel",
-      "Flevoland",
-      "Gelderland",
-      "Utrecht",
-      "Noord-Holland",
-      "Zuid-Holland",
-      "Zeeland",
-      "Noord-Brabant",
-      "Limburg"
-    ]
+    "options": {
+      "Groningen": { "color": "#EABAEB", "textColor": "black" },
+      "Friesland": { "color": "#BAEBBC", "textColor": "black" },
+      "Drenthe": { "color": "#B3F2F8", "textColor": "black" },
+      "Overijssel": { "color": "#DAAAC1", "textColor": "black" },
+      "Flevoland": { "color": "#A78211", "textColor": "white" },
+      "Gelderland": { "color": "#E6C312", "textColor": "black" },
+      "Utrecht": { "color": "#F8D6EE", "textColor": "black" },
+      "Noord-Holland": { "color": "#FFFF80", "textColor": "black" },
+      "Zuid-Holland": { "color": "#F47B6F", "textColor": "white" },
+      "Zeeland": { "color": "#F1DA98", "textColor": "black" },
+      "Noord-Brabant": { "color": "#51D442", "textColor": "black" },
+      "Limburg": { "color": "#84D3F5", "textColor": "black" }
+    }
   },
   {
     "image_id": "gift_010",
     "open_at": "2026-02-27T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/med_gift.png",
     "title": "Med Cadeau"
   },
   {
     "image_id": "gift_011",
     "open_at": "2026-03-06T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/game_night.png",
     "title": "Spelletjesavond"
   },
   {
     "image_id": "gift_012",
     "open_at": "2026-03-13T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/breakfast.png",
     "title": "Uitgebreid ontbijt"
   },
   {
     "image_id": "gift_013",
     "open_at": "2026-03-20T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/special_gift.png",
     "title": "Groot Cadeau"
   },
   {
     "image_id": "gift_014",
     "open_at": "2026-03-27T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/tikibad.webp",
     "title": "Tikibad"
   },
   {
     "image_id": "gift_015",
     "open_at": "2026-04-03T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/fotospeurtocht.png",
     "title": "Fotospeurtocht"
   },
   {
     "image_id": "gift_016",
     "open_at": "2026-04-10T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/boswandeling.webp",
     "title": "Boswandeling"
   },
   {
     "image_id": "gift_017",
     "open_at": "2026-04-17T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/pretpark.png",
     "title": "Pretpark"
   },
   {
     "image_id": "gift_018",
     "open_at": "2026-04-24T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/museum.png",
     "title": "Museum"
   },
   {
     "image_id": "gift_019",
     "open_at": "2026-05-01T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/tiny_gift.png",
     "title": "Klein Cadeautje"
   },
   {
     "image_id": "gift_020",
     "open_at": "2026-05-08T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/gift_001.png",
     "title": "Autotocht + lunch"
   },
   {
     "image_id": "gift_021",
     "open_at": "2026-05-15T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/gift_001.png",
     "title": "Samen naar een prof sportwedstrijd"
   },
   {
     "image_id": "gift_022",
     "open_at": "2026-05-22T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/gift_001.png",
     "title": "Ijsje"
   },
   {
     "image_id": "gift_023",
     "open_at": "2026-05-29T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/gift_001.png",
     "title": "Boswandeling"
   },
   {
     "image_id": "gift_024",
     "open_at": "2026-06-05T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/gift_001.png",
     "title": "Minigolf"
   },
   {
     "image_id": "gift_025",
     "open_at": "2026-06-12T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/gift_001.png",
     "title": "Picknick"
   },
   {
     "image_id": "gift_026",
     "open_at": "2026-06-19T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/gift_001.png",
     "title": "Strand + ijsje"
   },
   {
     "image_id": "gift_027",
     "open_at": "2026-06-26T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/gift_001.png",
     "title": "Uit (kroeg)"
   },
   {
     "image_id": "gift_028",
     "open_at": "2026-07-03T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/gift_001.png",
     "title": "Fietstocht + lunch"
   },
   {
     "image_id": "gift_029",
     "open_at": "2026-07-10T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/gift_001.png",
     "title": "Dierentuin"
   },
   {
     "image_id": "gift_030",
     "open_at": "2026-07-17T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/gift_001.png",
     "title": "Boswandeling"
   },
   {
     "image_id": "gift_031",
     "open_at": "2026-07-24T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/gift_001.png",
     "title": "Med Cadeau"
   },
   {
     "image_id": "gift_032",
     "open_at": "2026-07-31T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
-    "title": "Bezoek aan stad België + activiteit"
+    "image_path": "images/gift_001.png",
+    "title": "Bezoek aan stad België + activiteit",
+    "action": "Spin the wheel to choose!",
+    "options": {
+      "Antwerpen": { "color": "#F50000", "textColor": "white" },
+      "Brugge": { "color": "#000000", "textColor": "white" },
+      "Gent": { "color": "#FFDD00", "textColor": "black" },
+      "Luik": { "color": "#F50000", "textColor": "white" },
+      "Brussel": { "color": "#000000", "textColor": "white" },
+      "Mechelen": { "color": "#FFDD00", "textColor": "black" },
+      "Leuven": { "color": "#F50000", "textColor": "white" },
+      "Mons": { "color": "#000000", "textColor": "white" },
+      "Namur": { "color": "#FFDD00", "textColor": "black" }
+    }
   },
   {
     "image_id": "gift_033",
     "open_at": "2026-08-07T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/lunchen.png",
     "title": "Lunchen"
   },
   {
     "image_id": "gift_034",
     "open_at": "2026-08-14T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/sax.webp",
     "title": "Jazz Festival Delft"
   },
   {
     "image_id": "gift_035",
     "open_at": "2026-08-21T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/bootjevaren.gif",
     "title": "Bootje varen"
   },
   {
     "image_id": "gift_036",
     "open_at": "2026-08-28T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/strandijs.png",
     "title": "Strand + ijsje"
   },
   {
     "image_id": "gift_037",
     "open_at": "2026-09-04T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/provincies.png",
     "title": "Bezoek aan stad/dorp in provincie x",
     "action": "Spin the wheel to choose!",
-    "options": [
-      "Groningen",
-      "Friesland",
-      "Drenthe",
-      "Overijssel",
-      "Flevoland",
-      "Gelderland",
-      "Utrecht",
-      "Noord-Holland",
-      "Zuid-Holland",
-      "Zeeland",
-      "Noord-Brabant",
-      "Limburg"
-    ]
+    "options": {
+      "Groningen": { "color": "#EABAEB", "textColor": "black" },
+      "Friesland": { "color": "#BAEBBC", "textColor": "black" },
+      "Drenthe": { "color": "#B3F2F8", "textColor": "black" },
+      "Overijssel": { "color": "#DAAAC1", "textColor": "black" },
+      "Flevoland": { "color": "#A78211", "textColor": "white" },
+      "Gelderland": { "color": "#E6C312", "textColor": "black" },
+      "Utrecht": { "color": "#F8D6EE", "textColor": "black" },
+      "Noord-Holland": { "color": "#FFFF80", "textColor": "black" },
+      "Zuid-Holland": { "color": "#F47B6F", "textColor": "white" },
+      "Zeeland": { "color": "#F1DA98", "textColor": "black" },
+      "Noord-Brabant": { "color": "#51D442", "textColor": "black" },
+      "Limburg": { "color": "#84D3F5", "textColor": "black" }
+    }
   },
   {
     "image_id": "gift_038",
     "open_at": "2026-09-11T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/autotocht.png",
     "title": "Autotocht + lunch"
   },
   {
     "image_id": "gift_039",
     "open_at": "2026-09-18T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/tiny_gift.png",
     "title": "Klein Cadeautje"
   },
   {
     "image_id": "gift_040",
     "open_at": "2026-09-25T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/provincies.png",
     "title": "Bezoek aan stad/dorp in provincie x",
     "action": "Spin the wheel to choose!",
-    "options": [
-      "Groningen",
-      "Friesland",
-      "Drenthe",
-      "Overijssel",
-      "Flevoland",
-      "Gelderland",
-      "Utrecht",
-      "Noord-Holland",
-      "Zuid-Holland",
-      "Zeeland",
-      "Noord-Brabant",
-      "Limburg"
-    ]
+    "options": {
+      "Groningen": { "color": "#EABAEB", "textColor": "black" },
+      "Friesland": { "color": "#BAEBBC", "textColor": "black" },
+      "Drenthe": { "color": "#B3F2F8", "textColor": "black" },
+      "Overijssel": { "color": "#DAAAC1", "textColor": "black" },
+      "Flevoland": { "color": "#A78211", "textColor": "white" },
+      "Gelderland": { "color": "#E6C312", "textColor": "black" },
+      "Utrecht": { "color": "#F8D6EE", "textColor": "black" },
+      "Noord-Holland": { "color": "#FFFF80", "textColor": "black" },
+      "Zuid-Holland": { "color": "#F47B6F", "textColor": "white" },
+      "Zeeland": { "color": "#F1DA98", "textColor": "black" },
+      "Noord-Brabant": { "color": "#51D442", "textColor": "black" },
+      "Limburg": { "color": "#84D3F5", "textColor": "black" }
+    }
   },
   {
     "image_id": "gift_041",
     "open_at": "2026-10-02T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/boswandeling.webp",
     "title": "Boswandeling"
   },
   {
     "image_id": "gift_042",
     "open_at": "2026-10-09T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/lunchen.png",
     "title": "Lunchen"
   },
   {
     "image_id": "gift_043",
     "open_at": "2026-10-16T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/game_night.png",
     "title": "Spelletjesavond"
   },
   {
     "image_id": "gift_044",
     "open_at": "2026-10-23T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/gift_001.png",
     "title": "Bioscoop"
   },
   {
     "image_id": "gift_045",
     "open_at": "2026-10-30T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/provincies.png",
     "title": "Bezoek aan stad/dorp in provincie x",
     "action": "Spin the wheel to choose!",
-    "options": [
-      "Groningen",
-      "Friesland",
-      "Drenthe",
-      "Overijssel",
-      "Flevoland",
-      "Gelderland",
-      "Utrecht",
-      "Noord-Holland",
-      "Zuid-Holland",
-      "Zeeland",
-      "Noord-Brabant",
-      "Limburg"
-    ]
+    "options": {
+      "Groningen": { "color": "#EABAEB", "textColor": "black" },
+      "Friesland": { "color": "#BAEBBC", "textColor": "black" },
+      "Drenthe": { "color": "#B3F2F8", "textColor": "black" },
+      "Overijssel": { "color": "#DAAAC1", "textColor": "black" },
+      "Flevoland": { "color": "#A78211", "textColor": "white" },
+      "Gelderland": { "color": "#E6C312", "textColor": "black" },
+      "Utrecht": { "color": "#F8D6EE", "textColor": "black" },
+      "Noord-Holland": { "color": "#FFFF80", "textColor": "black" },
+      "Zuid-Holland": { "color": "#F47B6F", "textColor": "white" },
+      "Zeeland": { "color": "#F1DA98", "textColor": "black" },
+      "Noord-Brabant": { "color": "#51D442", "textColor": "black" },
+      "Limburg": { "color": "#84D3F5", "textColor": "black" }
+    }
   },
   {
     "image_id": "gift_046",
     "open_at": "2026-11-06T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/lunchen.png",
     "title": "Lunchen"
   },
   {
     "image_id": "gift_047",
     "open_at": "2026-11-13T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/uit_eten.png",
     "title": "Uit eten"
   },
   {
     "image_id": "gift_048",
     "open_at": "2026-11-18T08:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/disneyland_parijs.avif",
     "title": "Disneyland Parijs (2d)"
   },
   {
     "image_id": "gift_049",
     "open_at": "2026-11-27T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/gift_001.png",
     "title": "TBD"
   },
   {
     "image_id": "gift_050",
     "open_at": "2026-12-04T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/provincies.png",
     "title": "Bezoek aan stad/dorp in provincie x",
     "action": "Spin the wheel to choose!",
-    "options": [
-      "Groningen",
-      "Friesland",
-      "Drenthe",
-      "Overijssel",
-      "Flevoland",
-      "Gelderland",
-      "Utrecht",
-      "Noord-Holland",
-      "Zuid-Holland",
-      "Zeeland",
-      "Noord-Brabant",
-      "Limburg"
-    ]
+    "options": {
+      "Groningen": { "color": "#EABAEB", "textColor": "black" },
+      "Friesland": { "color": "#BAEBBC", "textColor": "black" },
+      "Drenthe": { "color": "#B3F2F8", "textColor": "black" },
+      "Overijssel": { "color": "#DAAAC1", "textColor": "black" },
+      "Flevoland": { "color": "#A78211", "textColor": "white" },
+      "Gelderland": { "color": "#E6C312", "textColor": "black" },
+      "Utrecht": { "color": "#F8D6EE", "textColor": "black" },
+      "Noord-Holland": { "color": "#FFFF80", "textColor": "black" },
+      "Zuid-Holland": { "color": "#F47B6F", "textColor": "white" },
+      "Zeeland": { "color": "#F1DA98", "textColor": "black" },
+      "Noord-Brabant": { "color": "#51D442", "textColor": "black" },
+      "Limburg": { "color": "#84D3F5", "textColor": "black" }
+    }
   },
   {
     "image_id": "gift_051",
     "open_at": "2026-12-11T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/movie_night.webp",
     "title": "Filmavond"
   },
   {
     "image_id": "gift_052",
     "open_at": "2026-12-18T20:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/game_night.png",
     "title": "Spelletjesavond"
   },
   {
     "image_id": "gift_053",
     "open_at": "2026-12-25T12:00:00+01:00",
-    "image_path": "images/gift_001.jpg",
+    "image_path": "images/gift_001.png",
     "title": "TBD"
   }
 ]

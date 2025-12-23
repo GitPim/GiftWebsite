@@ -45,6 +45,36 @@ let presents = [];
 let tickTimer = null;
 let nextPresent = null;
 
+// Normalize options from:
+// - array of strings
+// - object map { label: color }
+// - object map { label: { color, textColor } } where textColor is 'white' | 'black'
+function normalizeOptions(raw) {
+  if (!raw) return [];
+  const defaultColor = (i) => (i % 2 === 0 ? "#150144ff" : "#0a2716ff");
+  const defaultText = "white";
+  if (Array.isArray(raw)) {
+    return raw.map((label, i) => ({ label: String(label), color: defaultColor(i), textColor: defaultText }));
+  }
+  if (typeof raw === "object") {
+    // Use insertion order of object keys as slice order
+    const entries = Object.entries(raw);
+    return entries.map(([label, val], i) => {
+      if (val && typeof val === "object") {
+        const color = val.color || defaultColor(i);
+        let textColor = (val.textColor || val.text || defaultText);
+        textColor = String(textColor).toLowerCase() === "black" ? "black" : "white";
+        return { label: String(label), color, textColor };
+      }
+      return { label: String(label), color: val || defaultColor(i), textColor: defaultText };
+    });
+  }
+  return [];
+}
+function labelsFromItems(items) {
+  return items.map((it) => it.label);
+}
+
 function loadRevealedSet() {
   try {
     const raw = localStorage.getItem("revealed_presents");
@@ -89,13 +119,13 @@ function fnv1a32(str){
   }
   return h >>> 0;
 }
-function seededIndex(p, opts){
-  const seedStr = `${APP_SEED}|${p.image_id}|${p.open_at}|${opts.join('|')}`;
+function seededIndex(p, labels){
+  const seedStr = `${APP_SEED}|${p.image_id}|${p.open_at}|${labels.join('|')}`;
   const h = fnv1a32(seedStr);
-  return h % opts.length;
+  return h % labels.length;
 }
-function seededExtraTurns(p, opts){
-  const seedStr = `${APP_SEED}|turns|${p.image_id}|${p.open_at}|${opts.length}`;
+function seededExtraTurns(p, labels){
+  const seedStr = `${APP_SEED}|turns|${p.image_id}|${p.open_at}|${labels.length}`;
   const h = fnv1a32(seedStr);
   return 3 + (h % 3); // 3–5 full turns, deterministic
 }
@@ -183,65 +213,173 @@ function renderFeatured(ps) {
   showFeaturedWheel(p);
 }
 
-function drawWheel(options) {
-  const canvas = els.wheelCanvas;
-  if (!canvas) return;
-  const ctx = canvas.getContext("2d");
-  const dpr = Math.max(1, window.devicePixelRatio || 1);
-  const size = 360;
-  canvas.width = Math.floor(size * dpr);
-  canvas.height = Math.floor(size * dpr);
-  const cx = canvas.width / 2;
-  const cy = canvas.height / 2;
-  const r = Math.min(cx, cy) - 6 * dpr;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  const n = options.length;
-  const slice = (Math.PI * 2) / n;
-  for (let i = 0; i < n; i++) {
-    const a0 = i * slice;
-    const a1 = a0 + slice;
-    // color palette varying by index
-    const hue = Math.floor((i * 360) / n);
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, r, a0, a1, false);
-    ctx.closePath();
-    ctx.fillStyle = `hsl(${hue} 85% 55%)`;
-    ctx.fill();
-
-    // label
-    const mid = a0 + slice / 2;
-    ctx.save();
-    ctx.translate(cx + Math.cos(mid) * (r * 0.68), cy + Math.sin(mid) * (r * 0.68));
-    ctx.rotate(mid);
-    ctx.fillStyle = "#0b1020";
-    ctx.font = `${Math.floor(14 * dpr)}px sans-serif`;
-    const text = options[i];
-    const maxChars = 18;
-    const t = text.length > maxChars ? text.slice(0, maxChars - 1) + "…" : text;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(t, 0, 0);
-    ctx.restore();
+// Unified wheel renderer for both normal and featured wheels
+class WheelRenderer {
+  constructor(canvas) {
+    this.canvas = canvas;
   }
-  // outline
-  ctx.beginPath();
-  ctx.arc(cx, cy, r, 0, Math.PI * 2);
-  ctx.strokeStyle = "rgba(255,255,255,0.55)";
-  ctx.lineWidth = 3 * dpr;
-  ctx.stroke();
+
+  draw(items) {
+    const canvas = this.canvas;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    const size = 360;
+    canvas.width = Math.floor(size * dpr);
+    canvas.height = Math.floor(size * dpr);
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+    const r = Math.min(cx, cy) - 6 * dpr;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const n = items.length;
+    const slice = (Math.PI * 2) / n;
+    for (let i = 0; i < n; i++) {
+      const a0 = i * slice;
+      const a1 = a0 + slice;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, r, a0, a1, false);
+      ctx.closePath();
+      ctx.fillStyle = items[i]?.color || (i % 2 === 0 ? "#150144ff" : "#0a2716ff");
+      ctx.fill();
+
+      const mid = a0 + slice / 2;
+      ctx.save();
+      ctx.translate(cx + Math.cos(mid) * (r * 0.68), cy + Math.sin(mid) * (r * 0.68));
+      ctx.rotate(mid);
+      const txt = (items[i]?.textColor || "white") === "black" ? "#000000ff" : "#ffffffff";
+      ctx.fillStyle = txt;
+      ctx.font = `${Math.floor(14 * dpr)}px arial`;
+      const text = items[i]?.label ?? "";
+      const maxChars = 18;
+      const t = text.length > maxChars ? text.slice(0, maxChars - 1) + "…" : text;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(t, 0, 0);
+      ctx.restore();
+    }
+    // outline
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(0, 0, 0, 0.55)";
+    ctx.lineWidth = 3 * dpr;
+    ctx.stroke();
+  }
+}
+
+// Unified controller to handle drawing, alignment, and spinning
+class WheelController {
+  constructor({ canvas, rotator, spinBtn, respinBtn, resultEl, restorePrevTransition }) {
+    this.renderer = new WheelRenderer(canvas);
+    this.canvas = canvas;
+    this.rotator = rotator;
+    this.spinBtn = spinBtn;
+    this.respinBtn = respinBtn;
+    this.resultEl = resultEl;
+    this.restorePrevTransition = !!restorePrevTransition;
+    this.items = [];
+  }
+
+  draw(items = []) {
+    this.items = Array.isArray(items) ? items : [];
+    this.renderer.draw(this.items);
+  }
+
+  alignToIndex(idx, n, { animate }) {
+    if (!this.rotator) return;
+    const sliceDeg = 360 / n;
+    const centerDeg = idx * sliceDeg + sliceDeg / 2;
+    const target = -centerDeg + POINTER_OFFSET_DEG;
+    const style = this.rotator.style;
+    if (!animate) {
+      const prev = style.transition;
+      style.transition = "none";
+      style.transform = `rotate(${target}deg)`;
+      void this.rotator.offsetWidth;
+      style.transition = this.restorePrevTransition ? (prev || "") : "";
+    } else {
+      style.transform = `rotate(${target}deg)`;
+    }
+  }
+
+  spin(p) {
+    const items = normalizeOptions(p.options);
+    const labels = labelsFromItems(items);
+    if (!this.rotator || labels.length < 2) return;
+    if (this.spinBtn) this.spinBtn.disabled = true;
+    if (this.resultEl) this.resultEl.textContent = "Spinning…";
+
+    const n = labels.length;
+    const sliceDeg = 360 / n;
+    const idx = seededIndex(p, labels);
+    const centerDeg = idx * sliceDeg + sliceDeg / 2;
+    const extraTurns = seededExtraTurns(p, labels);
+    const targetDeg = -centerDeg + POINTER_OFFSET_DEG - extraTurns * 360;
+
+    this.rotator.style.transform = `rotate(${targetDeg}deg)`;
+
+    const onDone = () => {
+      this.rotator.removeEventListener("transitionend", onDone);
+      const chosen = labels[idx];
+      if (this.resultEl) this.resultEl.textContent = `Chosen: ${chosen}`;
+      saveWheelResult(p.image_id, chosen);
+      if (this.spinBtn) {
+        this.spinBtn.disabled = false;
+        this.spinBtn.style.display = "none";
+      }
+      if (this.respinBtn) this.respinBtn.style.display = "none";
+    };
+    this.rotator.addEventListener("transitionend", onDone);
+  }
+}
+
+// Singletons for the two wheels
+let wheelCtrl = null;
+function ensureWheelCtrl() {
+  if (!wheelCtrl) {
+    wheelCtrl = new WheelController({
+      canvas: els.wheelCanvas,
+      rotator: els.wheelRotator,
+      spinBtn: els.wheelSpinBtn,
+      respinBtn: els.wheelRespinBtn,
+      resultEl: els.wheelResult,
+      restorePrevTransition: false,
+    });
+  }
+  return wheelCtrl;
+}
+
+let featuredWheelCtrl = null;
+function ensureFeaturedWheelCtrl() {
+  if (!featuredWheelCtrl) {
+    featuredWheelCtrl = new WheelController({
+      canvas: els.featuredWheelCanvas,
+      rotator: els.featuredWheelRotator,
+      spinBtn: els.featuredWheelSpinBtn,
+      respinBtn: els.featuredWheelRespinBtn,
+      resultEl: els.featuredWheelResult,
+      restorePrevTransition: true,
+    });
+  }
+  return featuredWheelCtrl;
+}
+
+function drawWheel(items) {
+  const ctrl = ensureWheelCtrl();
+  ctrl.draw(items);
 }
 
 function showWheel(p) {
-  const opts = Array.isArray(p.options) ? p.options : null;
-  const shouldShow = p && p.action && /spin the wheel/i.test(p.action) && opts && opts.length > 1;
+  const items = normalizeOptions(p.options);
+  const labels = labelsFromItems(items);
+  const shouldShow = p && p.action && /spin the wheel/i.test(p.action) && labels.length > 1;
   if (!shouldShow) {
     if (els.wheelArea) els.wheelArea.hidden = true;
     return;
   }
   els.wheelArea.hidden = false;
-  drawWheel(opts);
+  drawWheel(items);
 
   // read persisted result
   const stored = loadWheelResult(p.image_id);
@@ -250,13 +388,13 @@ function showWheel(p) {
     els.wheelSpinBtn.style.display = "none";
     els.wheelRespinBtn.style.display = "none";
     // align wheel to stored selection (no animation)
-    const idx = opts.indexOf(stored);
-    alignWheelToIndex(idx, opts.length, { animate: false });
+    const idx = labels.indexOf(stored);
+    alignWheelToIndex(idx, labels.length, { animate: false });
   } else {
     els.wheelResult.textContent = "";
     els.wheelSpinBtn.style.display = "inline-block";
     els.wheelRespinBtn.style.display = "none";
-    alignWheelToIndex(0, opts.length, { animate: false }); // reset orientation
+    alignWheelToIndex(0, labels.length, { animate: false }); // reset orientation
   }
 
   // bind handlers
@@ -266,121 +404,43 @@ function showWheel(p) {
 }
 
 function alignWheelToIndex(idx, n, { animate }) {
-  if (!els.wheelRotator) return;
-  const sliceDeg = 360 / n;
-  const centerDeg = idx * sliceDeg + sliceDeg / 2;
-  const target = -centerDeg + POINTER_OFFSET_DEG; // bring selected center to pointer (top)
-  const style = els.wheelRotator.style;
-  if (!animate) {
-    const prev = style.transition;
-    style.transition = "none";
-    style.transform = `rotate(${target}deg)`;
-    // force reflow then restore transition
-    void els.wheelRotator.offsetWidth;
-    style.transition = "";
-  } else {
-    style.transform = `rotate(${target}deg)`;
-  }
+  const ctrl = ensureWheelCtrl();
+  ctrl.alignToIndex(idx, n, { animate });
 }
 
 function spinWheel(p) {
-  const opts = Array.isArray(p.options) ? p.options : [];
-  if (!els.wheelRotator || opts.length < 2) return;
-  els.wheelSpinBtn.disabled = true;
-  els.wheelResult.textContent = "Spinning…";
-
-  const n = opts.length;
-  const sliceDeg = 360 / n;
-  const idx = seededIndex(p, opts);
-  const centerDeg = idx * sliceDeg + sliceDeg / 2;
-  const extraTurns = seededExtraTurns(p, opts);
-  const targetDeg = -centerDeg + POINTER_OFFSET_DEG - extraTurns * 360;
-
-  // trigger spin
-  els.wheelRotator.style.transform = `rotate(${targetDeg}deg)`;
-
-  const onDone = () => {
-    els.wheelRotator.removeEventListener("transitionend", onDone);
-    const chosen = opts[idx];
-    els.wheelResult.textContent = `Chosen: ${chosen}`;
-    saveWheelResult(p.image_id, chosen);
-    els.wheelSpinBtn.disabled = false;
-    els.wheelSpinBtn.style.display = "none";
-    els.wheelRespinBtn.style.display = "none";
-  };
-  els.wheelRotator.addEventListener("transitionend", onDone);
+  ensureWheelCtrl().spin(p);
 }
 
 // Featured wheel (separate instance)
-function drawFeaturedWheel(options) {
-  const canvas = els.featuredWheelCanvas;
-  if (!canvas) return;
-  const ctx = canvas.getContext("2d");
-  const dpr = Math.max(1, window.devicePixelRatio || 1);
-  const size = 360;
-  canvas.width = Math.floor(size * dpr);
-  canvas.height = Math.floor(size * dpr);
-  const cx = canvas.width / 2;
-  const cy = canvas.height / 2;
-  const r = Math.min(cx, cy) - 6 * dpr;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  const n = options.length;
-  const slice = (Math.PI * 2) / n;
-  for (let i = 0; i < n; i++) {
-    const a0 = i * slice;
-    const a1 = a0 + slice;
-    const hue = Math.floor((i * 360) / n);
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, r, a0, a1, false);
-    ctx.closePath();
-    ctx.fillStyle = `hsl(${hue} 85% 55%)`;
-    ctx.fill();
-
-    const mid = a0 + slice / 2;
-    ctx.save();
-    ctx.translate(cx + Math.cos(mid) * (r * 0.68), cy + Math.sin(mid) * (r * 0.68));
-    ctx.rotate(mid);
-    ctx.fillStyle = "#0b1020";
-    ctx.font = `${Math.floor(14 * dpr)}px sans-serif`;
-    const text = options[i];
-    const maxChars = 18;
-    const t = text.length > maxChars ? text.slice(0, maxChars - 1) + "…" : text;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(t, 0, 0);
-    ctx.restore();
-  }
-  ctx.beginPath();
-  ctx.arc(cx, cy, r, 0, Math.PI * 2);
-  ctx.strokeStyle = "rgba(255,255,255,0.55)";
-  ctx.lineWidth = 3 * dpr;
-  ctx.stroke();
+function drawFeaturedWheel(items) {
+  const ctrl = ensureFeaturedWheelCtrl();
+  ctrl.draw(items);
 }
 
 function showFeaturedWheel(p) {
-  const opts = Array.isArray(p.options) ? p.options : null;
-  const shouldShow = p && p.action && /spin the wheel/i.test(p.action) && opts && opts.length > 1;
+  const items = normalizeOptions(p.options);
+  const labels = labelsFromItems(items);
+  const shouldShow = p && p.action && /spin the wheel/i.test(p.action) && labels.length > 1;
   if (!shouldShow) {
     if (els.featuredWheelArea) els.featuredWheelArea.hidden = true;
     return;
   }
   els.featuredWheelArea.hidden = false;
-  drawFeaturedWheel(opts);
+  drawFeaturedWheel(items);
 
   const stored = loadWheelResult(p.image_id);
   if (stored) {
     els.featuredWheelResult.textContent = `Chosen: ${stored}`;
     els.featuredWheelSpinBtn.style.display = "none";
     els.featuredWheelRespinBtn.style.display = "none";
-    const idx = opts.indexOf(stored);
-    alignFeaturedWheelToIndex(idx, opts.length, { animate: false });
+    const idx = labels.indexOf(stored);
+    alignFeaturedWheelToIndex(idx, labels.length, { animate: false });
   } else {
     els.featuredWheelResult.textContent = "";
     els.featuredWheelSpinBtn.style.display = "inline-block";
     els.featuredWheelRespinBtn.style.display = "none";
-    alignFeaturedWheelToIndex(0, opts.length, { animate: false });
+    alignFeaturedWheelToIndex(0, labels.length, { animate: false });
   }
 
   els.featuredWheelSpinBtn.onclick = () => spinFeaturedWheel(p);
@@ -389,47 +449,12 @@ function showFeaturedWheel(p) {
 }
 
 function alignFeaturedWheelToIndex(idx, n, { animate }) {
-  if (!els.featuredWheelRotator) return;
-  const sliceDeg = 360 / n;
-  const centerDeg = idx * sliceDeg + sliceDeg / 2;
-  const target = -centerDeg + POINTER_OFFSET_DEG;
-  const style = els.featuredWheelRotator.style;
-  if (!animate) {
-    const prev = style.transition;
-    style.transition = "none";
-    style.transform = `rotate(${target}deg)`;
-    void els.featuredWheelRotator.offsetWidth;
-    style.transition = prev || "";
-  } else {
-    style.transform = `rotate(${target}deg)`;
-  }
+  const ctrl = ensureFeaturedWheelCtrl();
+  ctrl.alignToIndex(idx, n, { animate });
 }
 
 function spinFeaturedWheel(p) {
-  const opts = Array.isArray(p.options) ? p.options : [];
-  if (!els.featuredWheelRotator || opts.length < 2) return;
-  els.featuredWheelSpinBtn.disabled = true;
-  els.featuredWheelResult.textContent = "Spinning…";
-
-  const n = opts.length;
-  const sliceDeg = 360 / n;
-  const idx = seededIndex(p, opts);
-  const centerDeg = idx * sliceDeg + sliceDeg / 2;
-  const extraTurns = seededExtraTurns(p, opts);
-  const targetDeg = -centerDeg + POINTER_OFFSET_DEG - extraTurns * 360;
-
-  els.featuredWheelRotator.style.transform = `rotate(${targetDeg}deg)`;
-
-  const onDone = () => {
-    els.featuredWheelRotator.removeEventListener("transitionend", onDone);
-    const chosen = opts[idx];
-    els.featuredWheelResult.textContent = `Chosen: ${chosen}`;
-    saveWheelResult(p.image_id, chosen);
-    els.featuredWheelSpinBtn.disabled = false;
-    els.featuredWheelSpinBtn.style.display = "none";
-    els.featuredWheelRespinBtn.style.display = "none";
-  };
-  els.featuredWheelRotator.addEventListener("transitionend", onDone);
+  ensureFeaturedWheelCtrl().spin(p);
 }
 
 function showLocked(p, now) {
