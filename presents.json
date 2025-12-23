@@ -146,79 +146,79 @@
   {
     "image_id": "gift_020",
     "open_at": "2026-05-08T20:00:00+01:00",
-    "image_path": "images/gift_001.png",
+    "image_path": "images/autotocht.png",
     "title": "Autotocht + lunch"
   },
   {
     "image_id": "gift_021",
     "open_at": "2026-05-15T20:00:00+01:00",
-    "image_path": "images/gift_001.png",
+    "image_path": "images/tennis.png",
     "title": "Samen naar een prof sportwedstrijd"
   },
   {
     "image_id": "gift_022",
     "open_at": "2026-05-22T20:00:00+01:00",
-    "image_path": "images/gift_001.png",
+    "image_path": "images/ijsje.png",
     "title": "Ijsje"
   },
   {
     "image_id": "gift_023",
     "open_at": "2026-05-29T20:00:00+01:00",
-    "image_path": "images/gift_001.png",
+    "image_path": "images/boswandeling.webp",
     "title": "Boswandeling"
   },
   {
     "image_id": "gift_024",
     "open_at": "2026-06-05T20:00:00+01:00",
-    "image_path": "images/gift_001.png",
+    "image_path": "images/minigolf.gif",
     "title": "Minigolf"
   },
   {
     "image_id": "gift_025",
     "open_at": "2026-06-12T20:00:00+01:00",
-    "image_path": "images/gift_001.png",
+    "image_path": "images/picknick.png",
     "title": "Picknick"
   },
   {
     "image_id": "gift_026",
     "open_at": "2026-06-19T20:00:00+01:00",
-    "image_path": "images/gift_001.png",
+    "image_path": "images/strandijs.png",
     "title": "Strand + ijsje"
   },
   {
     "image_id": "gift_027",
     "open_at": "2026-06-26T20:00:00+01:00",
-    "image_path": "images/gift_001.png",
+    "image_path": "images/bier.png",
     "title": "Uit (kroeg)"
   },
   {
     "image_id": "gift_028",
     "open_at": "2026-07-03T20:00:00+01:00",
-    "image_path": "images/gift_001.png",
+    "image_path": "images/fietstocht.png",
     "title": "Fietstocht + lunch"
   },
   {
     "image_id": "gift_029",
     "open_at": "2026-07-10T20:00:00+01:00",
-    "image_path": "images/gift_001.png",
+    "image_path": "images/dierentuin.png",
     "title": "Dierentuin"
   },
   {
     "image_id": "gift_030",
     "open_at": "2026-07-17T20:00:00+01:00",
-    "image_path": "images/gift_001.png",
+    "image_path": "images/boswandeling.webp",
     "title": "Boswandeling"
   },
   {
     "image_id": "gift_031",
     "open_at": "2026-07-24T20:00:00+01:00",
-    "image_path": "images/gift_001.png",
+    "image_path": "images/med_gift.png",
     "title": "Med Cadeau"
   },
   {
     "image_id": "gift_032",
     "open_at": "2026-07-31T20:00:00+01:00",
-    "image_path": "images/gift_001.png",
+    "image_path": "images/belgie.png",
     "title": "Bezoek aan stad België + activiteit",
     "action": "Spin the wheel to choose!",
     "options": {
@@ -229,8 +229,8 @@
       "Brussel": { "color": "#000000", "textColor": "white" },
       "Mechelen": { "color": "#FFDD00", "textColor": "black" },
       "Leuven": { "color": "#F50000", "textColor": "white" },
-      "Mons": { "color": "#000000", "textColor": "white" },
-      "Namur": { "color": "#FFDD00", "textColor": "black" }
+      "Bergen": { "color": "#000000", "textColor": "white" },
+      "Namen": { "color": "#FFDD00", "textColor": "black" }
     }
   },
   {
@@ -332,7 +332,7 @@
   {
     "image_id": "gift_044",
     "open_at": "2026-10-23T20:00:00+01:00",
-    "image_path": "images/gift_001.png",
+    "image_path": "images/bioscoop.webp",
     "title": "Bioscoop"
   },
   {
