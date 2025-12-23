@@ -146,11 +146,11 @@ function fmtCountdown(ms) {
 
 // Placeholder title used until a present is revealed
 function getPlaceholderTitle(p) {
-  if (!p) return "Next present";
+  if (!p) return "Volgend cadeau";
   const sorted = sortPresents(presents);
   const idx = sorted.findIndex(q => q.image_id === p.image_id);
   const n = idx >= 0 ? idx + 1 : "";
-  return n ? `Present ${n}` : "Present";
+  return n ? `Cadeau ${n}` : "Cadeau";
 }
 
 function sortPresents(ps) {
@@ -173,11 +173,11 @@ function renderRevealedGallery(ps, revealedSet, now) {
   const revealedByUser = ps.filter(p => revealedSet.has(p.image_id)).length;
   const remainingUnrevealed = Math.max(0, ps.length - revealedByUser);
   if (els.subHeader) {
-    els.subHeader.textContent = `A new present unlocks over time. Unrevealed: ${remainingUnrevealed}`;
+    els.subHeader.textContent = `Een nieuw cadeau wordt na verloop van tijd ontgrendeld. Niet onthuld: ${remainingUnrevealed}`;
   }
 
   if (revealed.length === 0) {
-    els.revealedGrid.innerHTML = `<div class="small">No revealed presents yet.</div>`;
+    els.revealedGrid.innerHTML = `<div class="small">Nog geen geopende cadeaus.</div>`;
     return;
   }
 
@@ -188,8 +188,8 @@ function renderRevealedGallery(ps, revealedSet, now) {
     tile.innerHTML = `
       <img src="${p.image_path}" alt="${p.title ?? p.image_id}" loading="lazy" />
       <div class="t">${p.title ?? p.image_id}</div>
-      <div class="d">Unlocked: ${fmtDate(p.open_at)}</div>
-      ${choice ? `<div class=\"d\">Choice: ${choice}</div>` : ""}
+      <div class="d">Ontgrendeld: ${fmtDate(p.open_at)}</div>
+      ${choice ? `<div class=\"d\">Resultaat: ${choice}</div>` : ""}
     `;
     tile.addEventListener("click", () => showGift(p, { silent: true }));
     els.revealedGrid.appendChild(tile);
@@ -209,7 +209,7 @@ function renderFeatured(ps) {
   }
   els.featuredCard.hidden = false;
   els.featuredImg.src = p.image_path;
-  els.featuredMeta.textContent = `${p.title ?? p.image_id} — Unlocked: ${fmtDate(p.open_at)}`;
+  els.featuredMeta.textContent = `${p.title ?? p.image_id} — Ontgrendeld: ${fmtDate(p.open_at)}`;
   showFeaturedWheel(p);
 }
 
@@ -308,7 +308,7 @@ class WheelController {
     const labels = labelsFromItems(items);
     if (!this.rotator || labels.length < 2) return;
     if (this.spinBtn) this.spinBtn.disabled = true;
-    if (this.resultEl) this.resultEl.textContent = "Spinning…";
+    if (this.resultEl) this.resultEl.textContent = "Aan het draaien…";
 
     const n = labels.length;
     const sliceDeg = 360 / n;
@@ -322,7 +322,7 @@ class WheelController {
     const onDone = () => {
       this.rotator.removeEventListener("transitionend", onDone);
       const chosen = labels[idx];
-      if (this.resultEl) this.resultEl.textContent = `Chosen: ${chosen}`;
+      if (this.resultEl) this.resultEl.textContent = `Resultaat: ${chosen}`;
       saveWheelResult(p.image_id, chosen);
       if (this.spinBtn) {
         this.spinBtn.disabled = false;
@@ -384,7 +384,7 @@ function showWheel(p) {
   // read persisted result
   const stored = loadWheelResult(p.image_id);
   if (stored) {
-    els.wheelResult.textContent = `Chosen: ${stored}`;
+    els.wheelResult.textContent = `Resultaat: ${stored}`;
     els.wheelSpinBtn.style.display = "none";
     els.wheelRespinBtn.style.display = "none";
     // align wheel to stored selection (no animation)
@@ -431,7 +431,7 @@ function showFeaturedWheel(p) {
 
   const stored = loadWheelResult(p.image_id);
   if (stored) {
-    els.featuredWheelResult.textContent = `Chosen: ${stored}`;
+    els.featuredWheelResult.textContent = `Resultaat: ${stored}`;
     els.featuredWheelSpinBtn.style.display = "none";
     els.featuredWheelRespinBtn.style.display = "none";
     const idx = labels.indexOf(stored);
@@ -459,39 +459,39 @@ function spinFeaturedWheel(p) {
 
 function showLocked(p, now) {
   els.nextTitle.textContent = getPlaceholderTitle(p);
-  els.statusPill.textContent = "Locked";
+  els.statusPill.textContent = "Vergrendeld";
   els.presentImg.src = UNOPENED_IMAGE;
   els.openBtn.disabled = true;
   els.viewBtn.style.display = "none";
   els.revealArea.hidden = true;
-  els.hint.textContent = "Come back when the timer hits zero.";
-  els.openAtText.textContent = p ? `Unlocks at: ${fmtDate(p.open_at)}` : "";
+  els.hint.textContent = "Kom terug wanneer de timer op nul staat.";
+  els.openAtText.textContent = p ? `Wordt ontgrendeld op: ${fmtDate(p.open_at)}` : "";
   updateCountdown(p, now);
 }
 
 function showUnlockedNotRevealed(p) {
   els.nextTitle.textContent = getPlaceholderTitle(p);
-  els.statusPill.textContent = "Unlocked";
+  els.statusPill.textContent = "Ontgrendeld";
   els.presentImg.src = UNOPENED_IMAGE;
   els.openBtn.disabled = false;
   els.viewBtn.style.display = "none";
   els.revealArea.hidden = true;
-  els.hint.textContent = "It’s time. Click to open!";
-  els.openAtText.textContent = p ? `Unlocked at: ${fmtDate(p.open_at)}` : "";
+  els.hint.textContent = "Het is tijd. Klik om te openen!";
+  els.openAtText.textContent = p ? `Ontgrendeld op: ${fmtDate(p.open_at)}` : "";
   els.countdown.textContent = "00:00:00";
 }
 
 function showGift(p, { silent = false } = {}) {
-  els.nextTitle.textContent = p?.title ?? "Present";
-  els.statusPill.textContent = "Revealed";
+  els.nextTitle.textContent = p?.title ?? "Cadeau";
+  els.statusPill.textContent = "Onthuld";
   els.presentImg.src = UNOPENED_IMAGE;
   els.openBtn.disabled = true;
   els.viewBtn.style.display = "inline-block";
   els.revealArea.hidden = false;
   els.giftImg.src = p.image_path;
-  els.openAtText.textContent = `Unlocked at: ${fmtDate(p.open_at)}`;
+  els.openAtText.textContent = `Ontgrendeld op: ${fmtDate(p.open_at)}`;
   els.countdown.textContent = "00:00:00";
-  els.hint.textContent = silent ? "" : "Enjoy 🎉";
+  els.hint.textContent = silent ? "" : "Veel plezier 🎉";
 
   // Optional wheel
   showWheel(p);
@@ -617,9 +617,9 @@ async function main() {
   renderFeatured(presents);
 
   if (!nextPresent) {
-    els.nextTitle.textContent = "No presents configured";
+    els.nextTitle.textContent = "Geen cadeaus ingesteld";
     els.statusPill.textContent = "—";
-    els.hint.textContent = "Add items to presents.json";
+    els.hint.textContent = "Voeg items toe aan presents.json";
     els.openBtn.disabled = true;
     els.countdown.textContent = "—";
     return;
@@ -707,6 +707,6 @@ async function main() {
 
 main().catch(err => {
   console.error(err);
-  els.nextTitle.textContent = "Failed to load presents.json";
-  els.hint.textContent = "Check the file path and JSON format.";
+  els.nextTitle.textContent = "Kon presents.json niet laden";
+  els.hint.textContent = "Controleer het bestandspad en het JSON-formaat.";
 });

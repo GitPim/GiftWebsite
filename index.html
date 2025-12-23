@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="nl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Presents Countdown</title>
+  <title>Cadeau Countdown</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="images/unopened.png" type="image/png" />
 </head>
@@ -12,41 +12,41 @@
 
   <main class="container">
     <header class="header">
-      <h1>🎁 My Presents</h1>
-      <p class="sub" id="subHeader">A new present unlocks over time.</p>
+      <h1>🎁 Mijn cadeaus</h1>
+      <p class="sub" id="subHeader">Een nieuw cadeau wordt na verloop van tijd ontgrendeld.</p>
     </header>
 
     <section class="card" id="nextCard">
       <div class="cardHeader">
-        <h2 id="nextTitle">Loading…</h2>
+        <h2 id="nextTitle">Laden…</h2>
         <span class="pill" id="statusPill">—</span>
       </div>
 
       <div class="content">
         <div class="presentStage">
           <div id="presentWrapper" class="presentWrapper">
-            <img id="presentImg" alt="Present" />
+            <img id="presentImg" alt="Cadeau" />
           </div>
         </div>
 
         <div class="side">
           <div class="countdown">
-            <div class="label">Time until unlock</div>
+            <div class="label">Tijd tot ontgrendeling</div>
             <div class="timer" id="countdown">—</div>
             <div class="small" id="openAtText"></div>
           </div>
 
-          <button id="openBtn" class="btn" disabled>Open present</button>
-          <button id="viewBtn" class="btn secondary" style="display:none;">View again</button>
+          <button id="openBtn" class="btn" disabled>Cadeau openen</button>
+          <button id="viewBtn" class="btn secondary" style="display:none;">Opnieuw bekijken</button>
 
           <div class="hint" id="hint"></div>
         </div>
       </div>
 
       <div class="reveal" id="revealArea" hidden>
-        <h3>✨ Surprise!</h3>
+        <h3>✨ Verrassing!</h3>
         <div class="revealContent">
-          <img id="giftImg" alt="Gift" class="giftImg" />
+          <img id="giftImg" alt="Cadeau" class="giftImg" />
 
           <div id="wheelArea" class="wheelArea" hidden>
             <div class="wheelWrap">
@@ -56,8 +56,8 @@
               <div class="wheelPointer" aria-hidden="true"></div>
             </div>
             <div class="wheelControls">
-              <button id="wheelSpinBtn" class="btn">Spin</button>
-              <button id="wheelRespinBtn" class="btn secondary" style="display:none">Spin again</button>
+              <button id="wheelSpinBtn" class="btn">Draaien</button>
+              <button id="wheelRespinBtn" class="btn secondary" style="display:none">Opnieuw draaien</button>
               <div id="wheelResult" class="small"></div>
             </div>
           </div>
@@ -67,11 +67,11 @@
 
     <section class="card" id="featuredCard" hidden>
       <div class="cardHeader">
-        <h2>Last opened</h2>
+        <h2>Laatst geopend</h2>
       </div>
       <div class="reveal">
         <div class="revealContent">
-          <img id="featuredImg" alt="Last opened gift" class="giftImg" />
+          <img id="featuredImg" alt="Het laatst geopende cadeau" class="giftImg" />
 
           <div id="featuredWheelArea" class="wheelArea" hidden>
             <div class="wheelWrap">
@@ -81,8 +81,8 @@
               <div class="wheelPointer" aria-hidden="true"></div>
             </div>
             <div class="wheelControls">
-              <button id="featuredWheelSpinBtn" class="btn">Spin</button>
-              <button id="featuredWheelRespinBtn" class="btn secondary" style="display:none">Spin again</button>
+              <button id="featuredWheelSpinBtn" class="btn">Draaien</button>
+              <button id="featuredWheelRespinBtn" class="btn secondary" style="display:none">Opnieuw draaien</button>
               <div id="featuredWheelResult" class="small"></div>
             </div>
           </div>
@@ -93,16 +93,12 @@
 
     <section class="card">
       <div class="cardHeader">
-        <h2>Revealed presents</h2>
+        <h2>Geopende cadeaus</h2>
         <span class="pill" id="revealedCount">0</span>
-        <button id="revealAllBtn" class="btn secondary">Reveal previous unlocked</button>
+        <button id="revealAllBtn" class="btn secondary">Onthul all eerder geopende cadeaus</button>
       </div>
       <div id="revealedGrid" class="grid"></div>
     </section>
-
-    <footer class="footer">
-      <span class="small">Tip: publish via GitHub Pages / Netlify / Cloudflare Pages.</span>
-    </footer>
   </main>
 
   <script src="app.js"></script>
