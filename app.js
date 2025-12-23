@@ -36,7 +36,7 @@ const els = {
 };
 
 // Deterministic seed so spins are identical across devices
-const APP_SEED = "GiftWebsiteSeed_v2";
+const APP_SEED = "GiftWebsiteSeed_v3";
 // Canvas 0° is at the right (east); our pointer is at the top (north).
 // Use a -90° offset so the selected slice centers under the top pointer.
 const POINTER_OFFSET_DEG = -90;
