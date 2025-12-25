@@ -21,6 +21,7 @@ const els = {
   featuredCard: document.getElementById("featuredCard"),
   featuredImg: document.getElementById("featuredImg"),
   featuredMeta: document.getElementById("featuredMeta"),
+  activityDate: document.getElementById("activityDate"),
   featuredWheelArea: document.getElementById("featuredWheelArea"),
   featuredWheelCanvas: document.getElementById("featuredWheelCanvas"),
   featuredWheelRotator: document.getElementById("featuredWheelRotator"),
@@ -173,7 +174,7 @@ function renderRevealedGallery(ps, revealedSet, now) {
   const revealedByUser = ps.filter(p => revealedSet.has(p.image_id)).length;
   const remainingUnrevealed = Math.max(0, ps.length - revealedByUser);
   if (els.subHeader) {
-    els.subHeader.textContent = `Een nieuw cadeau wordt na verloop van tijd ontgrendeld. Niet onthuld: ${remainingUnrevealed}`;
+    els.subHeader.textContent = `Een nieuw cadeau wordt na verloop van tijd ontgrendeld. Nog te onthullen cadeau's: ${remainingUnrevealed}`;
   }
 
   if (revealed.length === 0) {
@@ -209,7 +210,8 @@ function renderFeatured(ps) {
   }
   els.featuredCard.hidden = false;
   els.featuredImg.src = p.image_path;
-  els.featuredMeta.textContent = `${p.title ?? p.image_id} — Ontgrendeld: ${fmtDate(p.open_at)}`;
+  const act = p.activity_date ? ` — Activiteit: ${p.activity_date}` : "";
+  els.featuredMeta.textContent = `${p.title ?? p.image_id} — Ontgrendeld: ${fmtDate(p.open_at)}${act}`;
   showFeaturedWheel(p);
 }
 
@@ -492,6 +494,11 @@ function showGift(p, { silent = false } = {}) {
   els.openAtText.textContent = `Ontgrendeld op: ${fmtDate(p.open_at)}`;
   els.countdown.textContent = "00:00:00";
   els.hint.textContent = silent ? "" : "Veel plezier 🎉";
+
+  // Show activity date if available
+  if (els.activityDate) {
+    els.activityDate.textContent = p.activity_date ? `Activiteit: ${p.activity_date}` : "";
+  }
 
   // Optional wheel
   showWheel(p);
