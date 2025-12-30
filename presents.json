@@ -9,24 +9,9 @@
   {
     "image_id": "gift_002",
     "open_at": "2026-01-02T20:00:00+01:00",
-    "image_path": "images/provincies.png",
-    "title": "Bezoek aan stad/dorp in provincie x",
-    "activity_date": "10-1-2026",
-    "action": "Spin the wheel to choose!",
-    "options": {
-      "Groningen": { "color": "#EABAEB", "textColor": "black" },
-      "Friesland": { "color": "#BAEBBC", "textColor": "black" },
-      "Drenthe": { "color": "#B3F2F8", "textColor": "black" },
-      "Overijssel": { "color": "#DAAAC1", "textColor": "black" },
-      "Flevoland": { "color": "#A78211", "textColor": "white" },
-      "Gelderland": { "color": "#E6C312", "textColor": "black" },
-      "Utrecht": { "color": "#F8D6EE", "textColor": "black" },
-      "Noord-Holland": { "color": "#FFFF80", "textColor": "black" },
-      "Zuid-Holland": { "color": "#F47B6F", "textColor": "white" },
-      "Zeeland": { "color": "#F1DA98", "textColor": "black" },
-      "Noord-Brabant": { "color": "#51D442", "textColor": "black" },
-      "Limburg": { "color": "#84D3F5", "textColor": "black" }
-    }
+    "image_path": "images/boswandeling.webp",
+    "title": "Boswandeling",
+    "activity_date": "10-1-2026"
   },
   {
     "image_id": "gift_003",
