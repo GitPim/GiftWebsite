@@ -49,6 +49,69 @@ const POINTER_OFFSET_DEG = -90;
 let presents = [];
 let tickTimer = null;
 let nextPresent = null;
+let countdownNotification = null;
+let lastCountdownTargetId = "";
+let lastCountdownValue = "";
+
+function closeCountdownNotification() {
+  if (!countdownNotification) return;
+  try {
+    countdownNotification.close();
+  } catch {
+    // Ignore close errors for unsupported environments.
+  }
+  countdownNotification = null;
+}
+
+function updatePersistentCountdownNotification(revealedSet, now) {
+  if (!notificationsSupported()) return;
+  if (!isSubscribedForNotifications()) {
+    closeCountdownNotification();
+    return;
+  }
+  if (Notification.permission !== "granted") {
+    closeCountdownNotification();
+    return;
+  }
+
+  const nextLocked = getNextLockedPresent(presents, revealedSet, now);
+  if (!nextLocked) {
+    closeCountdownNotification();
+    lastCountdownTargetId = "";
+    lastCountdownValue = "";
+    return;
+  }
+
+  const diff = new Date(nextLocked.open_at) - now;
+  if (diff <= 0) {
+    closeCountdownNotification();
+    lastCountdownTargetId = "";
+    lastCountdownValue = "";
+    return;
+  }
+
+  const countdownValue = fmtCountdown(diff);
+  if (lastCountdownTargetId === nextLocked.image_id && lastCountdownValue === countdownValue) {
+    return;
+  }
+
+  closeCountdownNotification();
+
+  try {
+    countdownNotification = new Notification("🎁 Volgend cadeau", {
+      body: `Nog ${countdownValue} tot het volgende cadeau open kan.`,
+      icon: UNOPENED_IMAGE,
+      tag: "present-countdown",
+      renotify: false,
+      requireInteraction: true,
+      silent: true,
+    });
+    lastCountdownTargetId = nextLocked.image_id;
+    lastCountdownValue = countdownValue;
+  } catch {
+    // Keep app functional when Notification options are partially unsupported.
+  }
+}
 
 function notificationsSupported() {
   return typeof window !== "undefined" && "Notification" in window;
@@ -113,6 +176,9 @@ async function toggleSubscription(revealedSet) {
   const currentlySubscribed = isSubscribedForNotifications();
   if (currentlySubscribed) {
     setSubscribedForNotifications(false);
+    closeCountdownNotification();
+    lastCountdownTargetId = "";
+    lastCountdownValue = "";
     updateSubscriptionUi(revealedSet);
     return;
   }
@@ -131,6 +197,7 @@ async function toggleSubscription(revealedSet) {
 
   setSubscribedForNotifications(true);
   updateSubscriptionUi(revealedSet);
+  updatePersistentCountdownNotification(revealedSet, new Date());
   maybeNotifyNextUnlock(revealedSet, new Date());
 }
 function maybeNotifyNextUnlock(revealedSet, now) {
@@ -148,14 +215,15 @@ function maybeNotifyNextUnlock(revealedSet, now) {
   const lastNotifiedId = loadLastNotifiedId();
   if (lastNotifiedId === next.image_id) return;
 
-  const title = "🎁 Nieuw cadeau is nu te openen";
-  const body = `${next.title ?? "Je volgende cadeau"} is ontgrendeld.`;
+  const title = "🎁 Nieuw cadeau te openen";
+  const body = "Er is een cadeau dat nu geopend kan worden.";
   try {
     new Notification(title, {
       body,
       icon: UNOPENED_IMAGE,
       tag: `present-unlock-${next.image_id}`,
       renotify: false,
+      requireInteraction: true,
     });
     saveLastNotifiedId(next.image_id);
   } catch {
@@ -674,6 +742,8 @@ function startTick(revealedSet) {
       lastRenderKey = renderKey;
     }
 
+    updatePersistentCountdownNotification(revealedSet, now);
+
     if (!nextPresent) return;
 
     const isTime = new Date(nextPresent.open_at) <= now;
@@ -783,10 +853,12 @@ async function main() {
     els.openBtn.disabled = true;
     els.countdown.textContent = "—";
     updateSubscriptionUi(revealedSet);
+    updatePersistentCountdownNotification(revealedSet, now);
     return;
   }
 
   updateSubscriptionUi(revealedSet);
+  updatePersistentCountdownNotification(revealedSet, now);
 
   if (els.subscribeBtn) {
     els.subscribeBtn.addEventListener("click", async () => {
