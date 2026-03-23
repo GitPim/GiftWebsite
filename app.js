@@ -1,5 +1,7 @@
 const PRESENTS_URL = "presents.json";
 const UNOPENED_IMAGE = "images/unopened.png";
+const SUBSCRIBE_STORAGE_KEY = "unlock_notification_subscribed";
+const LAST_NOTIFIED_STORAGE_KEY = "unlock_notification_last_id";
 
 const els = {
   nextTitle: document.getElementById("nextTitle"),
@@ -34,6 +36,8 @@ const els = {
   wheelSpinBtn: document.getElementById("wheelSpinBtn"),
   wheelRespinBtn: document.getElementById("wheelRespinBtn"),
   wheelResult: document.getElementById("wheelResult"),
+  subscribeBtn: document.getElementById("subscribeBtn"),
+  subscribeStatus: document.getElementById("subscribeStatus"),
 };
 
 // Deterministic seed so spins are identical across devices
@@ -45,6 +49,119 @@ const POINTER_OFFSET_DEG = -90;
 let presents = [];
 let tickTimer = null;
 let nextPresent = null;
+
+function notificationsSupported() {
+  return typeof window !== "undefined" && "Notification" in window;
+}
+function isSubscribedForNotifications() {
+  try {
+    return localStorage.getItem(SUBSCRIBE_STORAGE_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+function setSubscribedForNotifications(subscribed) {
+  safeStorageSet(SUBSCRIBE_STORAGE_KEY, subscribed ? "1" : "0");
+}
+function loadLastNotifiedId() {
+  try {
+    return localStorage.getItem(LAST_NOTIFIED_STORAGE_KEY) || null;
+  } catch {
+    return null;
+  }
+}
+function saveLastNotifiedId(id) {
+  if (!id) safeStorageRemove(LAST_NOTIFIED_STORAGE_KEY);
+  else safeStorageSet(LAST_NOTIFIED_STORAGE_KEY, id);
+}
+function getNextLockedPresent(ps, revealedSet, now) {
+  const sorted = sortPresents(ps);
+  return sorted.find(p => !revealedSet.has(p.image_id) && new Date(p.open_at) > now) ?? null;
+}
+function updateSubscriptionUi(revealedSet) {
+  if (!els.subscribeBtn || !els.subscribeStatus) return;
+
+  if (!notificationsSupported()) {
+    els.subscribeBtn.disabled = true;
+    els.subscribeBtn.textContent = "Notificaties niet ondersteund";
+    els.subscribeStatus.textContent = "Deze browser ondersteunt geen Notification API.";
+    return;
+  }
+
+  const subscribed = isSubscribedForNotifications();
+  els.subscribeBtn.disabled = false;
+  els.subscribeBtn.textContent = subscribed ? "Unsubscribe meldingen" : "Subscribe voor melding";
+
+  const permission = Notification.permission;
+  if (permission === "denied") {
+    els.subscribeStatus.textContent = "Notificaties staan uit in je browserinstellingen.";
+    return;
+  }
+
+  const nextLocked = getNextLockedPresent(presents, revealedSet, new Date());
+  if (!subscribed) {
+    els.subscribeStatus.textContent = "Zet een melding aan voor het volgende cadeau.";
+  } else if (!nextLocked) {
+    els.subscribeStatus.textContent = "Geen toekomstige cadeaus meer om voor te melden.";
+  } else {
+    els.subscribeStatus.textContent = `Volgende melding: ${fmtDate(nextLocked.open_at)} (${nextLocked.title ?? getPlaceholderTitle(nextLocked)})`;
+  }
+}
+async function toggleSubscription(revealedSet) {
+  if (!notificationsSupported()) return;
+
+  const currentlySubscribed = isSubscribedForNotifications();
+  if (currentlySubscribed) {
+    setSubscribedForNotifications(false);
+    updateSubscriptionUi(revealedSet);
+    return;
+  }
+
+  if (Notification.permission === "default") {
+    const permission = await Notification.requestPermission();
+    if (permission !== "granted") {
+      updateSubscriptionUi(revealedSet);
+      return;
+    }
+  }
+  if (Notification.permission !== "granted") {
+    updateSubscriptionUi(revealedSet);
+    return;
+  }
+
+  setSubscribedForNotifications(true);
+  updateSubscriptionUi(revealedSet);
+  maybeNotifyNextUnlock(revealedSet, new Date());
+}
+function maybeNotifyNextUnlock(revealedSet, now) {
+  if (!notificationsSupported()) return;
+  if (!isSubscribedForNotifications()) return;
+  if (Notification.permission !== "granted") return;
+
+  const next = pickCurrentPresent(presents, revealedSet);
+  if (!next) return;
+
+  const isDue = new Date(next.open_at) <= now;
+  const alreadyRevealed = revealedSet.has(next.image_id);
+  if (!isDue || alreadyRevealed) return;
+
+  const lastNotifiedId = loadLastNotifiedId();
+  if (lastNotifiedId === next.image_id) return;
+
+  const title = "🎁 Nieuw cadeau is nu te openen";
+  const body = `${next.title ?? "Je volgende cadeau"} is ontgrendeld.`;
+  try {
+    new Notification(title, {
+      body,
+      icon: UNOPENED_IMAGE,
+      tag: `present-unlock-${next.image_id}`,
+      renotify: false,
+    });
+    saveLastNotifiedId(next.image_id);
+  } catch {
+    // Ignore notification creation failures to keep app flow intact.
+  }
+}
 
 // Normalize options from:
 // - array of strings
@@ -562,6 +679,8 @@ function startTick(revealedSet) {
     const isTime = new Date(nextPresent.open_at) <= now;
     const isRevealed = revealedSet.has(nextPresent.image_id);
 
+    maybeNotifyNextUnlock(revealedSet, now);
+
     if (!isTime) showLocked(nextPresent, now);
     else if (!isRevealed) showUnlockedNotRevealed(nextPresent);
     else showGift(nextPresent, { silent: true });
@@ -663,7 +782,16 @@ async function main() {
     els.hint.textContent = "Voeg items toe aan presents.json";
     els.openBtn.disabled = true;
     els.countdown.textContent = "—";
+    updateSubscriptionUi(revealedSet);
     return;
+  }
+
+  updateSubscriptionUi(revealedSet);
+
+  if (els.subscribeBtn) {
+    els.subscribeBtn.addEventListener("click", async () => {
+      await toggleSubscription(revealedSet);
+    });
   }
 
   // Button handlers
@@ -684,6 +812,7 @@ async function main() {
 
     showGift(nextPresent);
     renderRevealedGallery(presents, revealedSet, now2);
+    updateSubscriptionUi(revealedSet);
     // Persist as featured and render prominently
     saveFeaturedId(nextPresent.image_id);
     renderFeatured(presents);
@@ -703,6 +832,7 @@ async function main() {
     // Recompute current and refresh UI
     nextPresent = pickCurrentPresent(presents, revealedSet);
     renderRevealedGallery(presents, revealedSet, now2);
+    updateSubscriptionUi(revealedSet);
     // Keep featured as last opened; do not change here
     renderFeatured(presents);
 
@@ -730,6 +860,7 @@ async function main() {
     nextPresent = pickCurrentPresent(presents, revealedSet);
     if (nextPresent) updateCountdown(nextPresent, now2);
     renderRevealedGallery(presents, revealedSet, now2);
+    updateSubscriptionUi(revealedSet);
     // Featured remains the last opened by user
     renderFeatured(presents);
 
