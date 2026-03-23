@@ -84,8 +84,24 @@ function loadRevealedSet() {
     return new Set();
   }
 }
+function safeStorageSet(key, value) {
+  try {
+    localStorage.setItem(key, value);
+    return true;
+  } catch {
+    return false;
+  }
+}
+function safeStorageRemove(key) {
+  try {
+    localStorage.removeItem(key);
+    return true;
+  } catch {
+    return false;
+  }
+}
 function saveRevealedSet(set) {
-  localStorage.setItem("revealed_presents", JSON.stringify([...set]));
+  safeStorageSet("revealed_presents", JSON.stringify([...set]));
 }
 function loadFeaturedId() {
   try {
@@ -97,9 +113,9 @@ function loadFeaturedId() {
 }
 function saveFeaturedId(id) {
   if (!id) {
-    localStorage.removeItem("featured_present_id");
+    safeStorageRemove("featured_present_id");
   } else {
-    localStorage.setItem("featured_present_id", id);
+    safeStorageSet("featured_present_id", id);
   }
 }
 
@@ -108,7 +124,7 @@ function loadWheelResult(id){
   try { return localStorage.getItem(wheelKey(id)); } catch { return null; }
 }
 function saveWheelResult(id, value){
-  try { localStorage.setItem(wheelKey(id), value); } catch {}
+  safeStorageSet(wheelKey(id), value);
 }
 
 // FNV-1a 32-bit hash → deterministic integer
@@ -132,7 +148,12 @@ function seededExtraTurns(p, labels){
 }
 function fmtDate(iso) {
   const d = new Date(iso);
-  return d.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
+  try {
+    return d.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
+  } catch {
+    // Fallback for older Safari/WebViews that do not support dateStyle/timeStyle.
+    return d.toLocaleString();
+  }
 }
 function pad(n) { return String(n).padStart(2, "0"); }
 function fmtCountdown(ms) {
@@ -321,8 +342,12 @@ class WheelController {
 
     this.rotator.style.transform = `rotate(${targetDeg}deg)`;
 
+    let done = false;
     const onDone = () => {
+      if (done) return;
+      done = true;
       this.rotator.removeEventListener("transitionend", onDone);
+      clearTimeout(fallbackTimer);
       const chosen = labels[idx];
       if (this.resultEl) this.resultEl.textContent = `Resultaat: ${chosen}`;
       saveWheelResult(p.image_id, chosen);
@@ -332,6 +357,7 @@ class WheelController {
       }
       if (this.respinBtn) this.respinBtn.style.display = "none";
     };
+    const fallbackTimer = setTimeout(onDone, 16500);
     this.rotator.addEventListener("transitionend", onDone);
   }
 }
@@ -515,6 +541,7 @@ function updateCountdown(p, now) {
 
 function startTick(revealedSet) {
   if (tickTimer) clearInterval(tickTimer);
+  let lastRenderKey = "";
 
   tickTimer = setInterval(() => {
     const now = new Date();
@@ -523,8 +550,12 @@ function startTick(revealedSet) {
     // Always update countdown if the next present is still future
     if (nextPresent) updateCountdown(nextPresent, now);
 
-    // Keep gallery updated
-    renderRevealedGallery(presents, revealedSet, now);
+    // Re-render gallery only when needed to reduce jank on slower devices.
+    const renderKey = `${revealedSet.size}|${Math.floor(now.getTime() / 1000)}`;
+    if (renderKey !== lastRenderKey) {
+      renderRevealedGallery(presents, revealedSet, now);
+      lastRenderKey = renderKey;
+    }
 
     if (!nextPresent) return;
 
@@ -535,14 +566,17 @@ function startTick(revealedSet) {
     else if (!isRevealed) showUnlockedNotRevealed(nextPresent);
     else showGift(nextPresent, { silent: true });
 
-  }, 250);
+  }, 1000);
 }
 
 // Simple confetti burst (no libs)
 function confettiBurst() {
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return;
+  }
   const canvas = els.confetti;
   const ctx = canvas.getContext("2d");
-  const dpr = Math.max(1, window.devicePixelRatio || 1);
+  const dpr = Math.min(2, Math.max(1, window.devicePixelRatio || 1));
 
   function resize() {
     canvas.width = Math.floor(window.innerWidth * dpr);

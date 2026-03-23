@@ -95,6 +95,9 @@ body{
   overflow:hidden;
   background: rgba(0,0,0,0.18);
   transform: translateZ(0);
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .presentWrapper img{
@@ -191,6 +194,9 @@ body{
   border-radius: 18px;
   border:1px solid var(--border);
   box-shadow: 0 18px 45px rgba(0,0,0,0.35);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 /* Wheel component */
@@ -207,6 +213,10 @@ body{
   align-items:center;
   justify-content:center;
   transition: transform 15s cubic-bezier(0.19, 1, 0.22, 1);
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 .wheelWrap canvas{width:100%; height:auto; display:block}
 .wheelPointer{
@@ -262,3 +272,16 @@ body{
 }
 
 .footer{margin-top:18px;text-align:center}
+
+@media (prefers-reduced-motion: reduce){
+  #wheelSpinBtn,
+  #featuredWheelSpinBtn{
+    animation: none;
+  }
+  .wheelRotator{
+    transition: none;
+  }
+  .opening{
+    animation: none;
+  }
+}
