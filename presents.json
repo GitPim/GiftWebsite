@@ -108,30 +108,45 @@
   {
     "image_id": "gift_014",
     "open_at": "2026-03-27T20:00:00+01:00",
-    "image_path": "images/tikibad.webp",
-    "title": "Tikibad",
+    "image_path": "images/fotospeurtocht.png",
+    "title": "Fotospeurtocht",
     "activity_date": "4-4-2026"
   },
   {
     "image_id": "gift_015",
     "open_at": "2026-04-03T20:00:00+01:00",
-    "image_path": "images/fotospeurtocht.png",
-    "title": "Fotospeurtocht",
+    "image_path": "images/terras.jpg",
+    "title": "Terras",
     "activity_date": "11-4-2026"
   },
   {
     "image_id": "gift_016",
     "open_at": "2026-04-10T20:00:00+01:00",
     "image_path": "images/boswandeling.webp",
-    "title": "Boswandeling",
+    "title": "Boswandeling met broertjes en zusjes van Aslan",
     "activity_date": "18-4-2026"
   },
   {
     "image_id": "gift_017",
     "open_at": "2026-04-17T20:00:00+01:00",
-    "image_path": "images/pretpark.png",
-    "title": "Pretpark",
-    "activity_date": "25-4-2026"
+    "image_path": "images/provincies.png",
+    "title": "Bezoek aan stad/dorp in provincie x",
+    "activity_date": "25-4-2026",
+    "action": "Spin the wheel to choose!",
+    "options": {
+      "Groningen": { "color": "#EABAEB", "textColor": "black" },
+      "Friesland": { "color": "#BAEBBC", "textColor": "black" },
+      "Drenthe": { "color": "#B3F2F8", "textColor": "black" },
+      "Overijssel": { "color": "#DAAAC1", "textColor": "black" },
+      "Flevoland": { "color": "#A78211", "textColor": "white" },
+      "Gelderland": { "color": "#E6C312", "textColor": "black" },
+      "Utrecht": { "color": "#F8D6EE", "textColor": "black" },
+      "Noord-Holland": { "color": "#FFFF80", "textColor": "black" },
+      "Zuid-Holland": { "color": "#F47B6F", "textColor": "white" },
+      "Zeeland": { "color": "#F1DA98", "textColor": "black" },
+      "Noord-Brabant": { "color": "#51D442", "textColor": "black" },
+      "Limburg": { "color": "#84D3F5", "textColor": "black" }
+    }
   },
   {
     "image_id": "gift_018",
