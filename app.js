@@ -167,7 +167,7 @@ function updateSubscriptionUi(revealedSet) {
   } else if (!nextLocked) {
     els.subscribeStatus.textContent = "Geen toekomstige cadeaus meer om voor te melden.";
   } else {
-    els.subscribeStatus.textContent = `Volgende melding: ${fmtDate(nextLocked.open_at)} (${nextLocked.title ?? getPlaceholderTitle(nextLocked)})`;
+    els.subscribeStatus.textContent = `Volgende melding: ${fmtDate(nextLocked.open_at)}`;
   }
 }
 async function toggleSubscription(revealedSet) {
