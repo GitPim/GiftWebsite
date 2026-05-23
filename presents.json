@@ -165,23 +165,23 @@
   {
     "image_id": "gift_020",
     "open_at": "2026-05-08T20:00:00+01:00",
-    "image_path": "images/ijsje.png",
-    "title": "Ijsje",
-    "activity_date": "22-5-2026"
+    "image_path": "images/autotocht.png",
+    "title": "Autotocht + lunch",
+    "activity_date": "16-5-2026"
   },
   {
     "image_id": "gift_021",
+    "open_at": "2026-05-15T20:00:00+01:00",
+    "image_path": "images/ijsje.png",
+    "title": "Ijsje eten",
+    "activity_date": "22-5-2026"
+  },
+  {
+    "image_id": "gift_022",
     "open_at": "2026-05-23T20:00:00+01:00",
     "image_path": "images/sterren.jpg",
     "title": "Sterren kijken",
     "activity_date": "23-5-2026"
-  },
-  {
-    "image_id": "gift_022",
-    "open_at": "2026-05-22T20:00:00+01:00",
-    "image_path": "images/ijsje.png",
-    "title": "Ijsje",
-    "activity_date": "30-5-2026"
   },
   {
     "image_id": "gift_023",
