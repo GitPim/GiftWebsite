@@ -31,7 +31,7 @@
     "image_id": "gift_005",
     "open_at": "2026-01-24T12:00:00+01:00",
     "image_path": "images/tiny_gift.png",
-    "title": "Klein Cadeautje",
+    "title": "Cadeau",
     "activity_date": "24-1-2026"
   },
   {
@@ -49,33 +49,18 @@
     "activity_date": "14-2-2026"
   },
   {
-    "image_id": "gift_009",
-    "open_at": "2026-02-20T20:00:00+01:00",
-    "image_path": "images/provincies.png",
-    "title": "Bezoek aan stad/dorp in provincie x",
-    "activity_date": "1-3-2026",
-    "action": "Spin the wheel to choose!",
-    "options": {
-      "Groningen": { "color": "#EABAEB", "textColor": "black" },
-      "Friesland": { "color": "#BAEBBC", "textColor": "black" },
-      "Drenthe": { "color": "#B3F2F8", "textColor": "black" },
-      "Overijssel": { "color": "#DAAAC1", "textColor": "black" },
-      "Flevoland": { "color": "#A78211", "textColor": "white" },
-      "Gelderland": { "color": "#E6C312", "textColor": "black" },
-      "Utrecht": { "color": "#F8D6EE", "textColor": "black" },
-      "Noord-Holland": { "color": "#FFFF80", "textColor": "black" },
-      "Zuid-Holland": { "color": "#F47B6F", "textColor": "white" },
-      "Zeeland": { "color": "#F1DA98", "textColor": "black" },
-      "Noord-Brabant": { "color": "#51D442", "textColor": "black" },
-      "Limburg": { "color": "#84D3F5", "textColor": "black" }
-    }
-  },
-  {
     "image_id": "gift_008",
     "open_at": "2026-02-14T12:00:00+01:00",
     "image_path": "images/skating.png",
     "title": "Schaatsen",
     "activity_date": "21-2-2026"
+  },
+  {
+    "image_id": "gift_009",
+    "open_at": "2026-02-20T20:00:00+01:00",
+    "image_path": "images/provincies.png",
+    "title": "Bezoek aan stad/dorp in provincie Zuid-Holland",
+    "activity_date": "1-3-2026"
   },
   {
     "image_id": "gift_010",
@@ -123,15 +108,22 @@
     "image_id": "gift_016",
     "open_at": "2026-04-10T20:00:00+01:00",
     "image_path": "images/boswandeling.webp",
-    "title": "Boswandeling met broertjes en zusjes van Aslan",
+    "title": "Boswandeling",
     "activity_date": "18-4-2026"
   },
   {
     "image_id": "gift_017",
     "open_at": "2026-04-17T20:00:00+01:00",
+    "image_path": "images/here_i_am.png",
+    "title": "Escape Room",
+    "activity_date": "25-4-2026"
+  },
+  {
+    "image_id": "gift_018",
+    "open_at": "2026-04-24T20:00:00+01:00",
     "image_path": "images/provincies.png",
     "title": "Bezoek aan stad/dorp in provincie x",
-    "activity_date": "25-4-2026",
+    "activity_date": "3-5-2026",
     "action": "Spin the wheel to choose!",
     "options": {
       "Groningen": { "color": "#EABAEB", "textColor": "black" },
@@ -142,24 +134,16 @@
       "Gelderland": { "color": "#E6C312", "textColor": "black" },
       "Utrecht": { "color": "#F8D6EE", "textColor": "black" },
       "Noord-Holland": { "color": "#FFFF80", "textColor": "black" },
-      "Zuid-Holland": { "color": "#F47B6F", "textColor": "white" },
       "Zeeland": { "color": "#F1DA98", "textColor": "black" },
       "Noord-Brabant": { "color": "#51D442", "textColor": "black" },
       "Limburg": { "color": "#84D3F5", "textColor": "black" }
     }
   },
   {
-    "image_id": "gift_018",
-    "open_at": "2026-04-24T20:00:00+01:00",
-    "image_path": "images/museum.png",
-    "title": "Museum",
-    "activity_date": "2-5-2026"
-  },
-  {
     "image_id": "gift_019",
     "open_at": "2026-05-01T20:00:00+01:00",
-    "image_path": "images/tiny_gift.png",
-    "title": "Klein Cadeautje",
+    "image_path": "images/roadtrip_games.png",
+    "title": "Roadtrip-games",
     "activity_date": "9-5-2026"
   },
   {
