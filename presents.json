@@ -155,84 +155,84 @@
   },
   {
     "image_id": "gift_021",
-    "open_at": "2026-05-15T20:00:00+01:00",
+    "open_at": "2026-05-15T20:00:00+02:00",
     "image_path": "images/ijsje.png",
     "title": "Ijsje eten",
     "activity_date": "22-5-2026"
   },
   {
     "image_id": "gift_022",
-    "open_at": "2026-05-23T20:00:00+01:00",
+    "open_at": "2026-05-23T20:00:00+02:00",
     "image_path": "images/sterren.jpg",
     "title": "Sterren kijken",
     "activity_date": "23-5-2026"
   },
   {
     "image_id": "gift_023",
-    "open_at": "2026-05-29T20:00:00+01:00",
+    "open_at": "2026-05-29T20:00:00+02:00",
     "image_path": "images/boswandeling.webp",
     "title": "Boswandeling",
     "activity_date": "6-6-2026"
   },
   {
     "image_id": "gift_024",
-    "open_at": "2026-06-05T20:00:00+01:00",
+    "open_at": "2026-06-05T20:00:00+02:00",
     "image_path": "images/minigolf.gif",
     "title": "Minigolf",
     "activity_date": "13-6-2026"
   },
   {
     "image_id": "gift_025",
-    "open_at": "2026-06-12T20:00:00+01:00",
+    "open_at": "2026-06-12T20:00:00+02:00",
     "image_path": "images/picknick.png",
     "title": "Picknick",
     "activity_date": "20-6-2026"
   },
   {
     "image_id": "gift_026",
-    "open_at": "2026-06-19T20:00:00+01:00",
+    "open_at": "2026-06-19T20:00:00+02:00",
     "image_path": "images/strandijs.png",
     "title": "Strand + ijsje",
     "activity_date": "27-6-2026"
   },
   {
     "image_id": "gift_027",
-    "open_at": "2026-06-26T20:00:00+01:00",
+    "open_at": "2026-06-26T20:00:00+02:00",
     "image_path": "images/bier.png",
     "title": "Uit (kroeg)",
     "activity_date": "4-7-2026"
   },
   {
     "image_id": "gift_028",
-    "open_at": "2026-07-03T20:00:00+01:00",
+    "open_at": "2026-07-03T20:00:00+02:00",
     "image_path": "images/fietstocht.png",
     "title": "Fietstocht + lunch",
     "activity_date": "11-7-2026"
   },
   {
     "image_id": "gift_029",
-    "open_at": "2026-07-10T20:00:00+01:00",
+    "open_at": "2026-07-10T20:00:00+02:00",
     "image_path": "images/dierentuin.png",
     "title": "Dierentuin",
     "activity_date": "18-7-2026"
   },
   {
     "image_id": "gift_030",
-    "open_at": "2026-07-17T20:00:00+01:00",
+    "open_at": "2026-07-17T20:00:00+02:00",
     "image_path": "images/boswandeling.webp",
     "title": "Boswandeling",
     "activity_date": "25-7-2026"
   },
   {
     "image_id": "gift_031",
-    "open_at": "2026-07-24T20:00:00+01:00",
+    "open_at": "2026-07-24T20:00:00+02:00",
     "image_path": "images/med_gift.png",
     "title": "Med Cadeau",
     "activity_date": "1-8-2026"
   },
   {
     "image_id": "gift_032",
-    "open_at": "2026-07-31T20:00:00+01:00",
+    "open_at": "2026-07-31T20:00:00+02:00",
     "image_path": "images/Belgische_provincies.png",
     "title": "Bezoek aan stad België + activiteit",
     "activity_date": "8-8-2026",
@@ -251,35 +251,35 @@
   },
   {
     "image_id": "gift_033",
-    "open_at": "2026-08-07T20:00:00+01:00",
+    "open_at": "2026-08-07T20:00:00+02:00",
     "image_path": "images/lunchen.png",
     "title": "Lunchen",
     "activity_date": "15-8-2026"
   },
   {
     "image_id": "gift_034",
-    "open_at": "2026-08-14T20:00:00+01:00",
+    "open_at": "2026-08-14T20:00:00+02:00",
     "image_path": "images/sax.webp",
     "title": "Jazz Festival Delft",
     "activity_date": "22-8-2026"
   },
   {
     "image_id": "gift_035",
-    "open_at": "2026-08-21T20:00:00+01:00",
+    "open_at": "2026-08-21T20:00:00+02:00",
     "image_path": "images/bootjevaren.gif",
     "title": "Bootje varen",
     "activity_date": "29-8-2026"
   },
   {
     "image_id": "gift_036",
-    "open_at": "2026-08-28T20:00:00+01:00",
+    "open_at": "2026-08-28T20:00:00+02:00",
     "image_path": "images/strandijs.png",
     "title": "Strand + ijsje",
     "activity_date": "5-9-2026"
   },
   {
     "image_id": "gift_037",
-    "open_at": "2026-09-04T20:00:00+01:00",
+    "open_at": "2026-09-04T20:00:00+02:00",
     "image_path": "images/provincies.png",
     "title": "Bezoek aan stad/dorp in provincie x",
     "activity_date": "12-9-2026",
@@ -301,21 +301,21 @@
   },
   {
     "image_id": "gift_038",
-    "open_at": "2026-09-11T20:00:00+01:00",
+    "open_at": "2026-09-11T20:00:00+02:00",
     "image_path": "images/autotocht.png",
     "title": "Autotocht + lunch",
     "activity_date": "19-9-2026"
   },
   {
     "image_id": "gift_039",
-    "open_at": "2026-09-18T20:00:00+01:00",
+    "open_at": "2026-09-18T20:00:00+02:00",
     "image_path": "images/tiny_gift.png",
     "title": "Klein Cadeautje",
     "activity_date": "26-9-2026"
   },
   {
     "image_id": "gift_040",
-    "open_at": "2026-09-25T20:00:00+01:00",
+    "open_at": "2026-09-25T20:00:00+02:00",
     "image_path": "images/provincies.png",
     "title": "Bezoek aan stad/dorp in provincie x",
     "activity_date": "3-10-2026",
@@ -337,28 +337,28 @@
   },
   {
     "image_id": "gift_041",
-    "open_at": "2026-10-02T20:00:00+01:00",
+    "open_at": "2026-10-02T20:00:00+02:00",
     "image_path": "images/boswandeling.webp",
     "title": "Boswandeling",
     "activity_date": "10-10-2026"
   },
   {
     "image_id": "gift_042",
-    "open_at": "2026-10-09T20:00:00+01:00",
+    "open_at": "2026-10-09T20:00:00+02:00",
     "image_path": "images/lunchen.png",
     "title": "Lunchen",
     "activity_date": "17-10-2026"
   },
   {
     "image_id": "gift_043",
-    "open_at": "2026-10-16T20:00:00+01:00",
+    "open_at": "2026-10-16T20:00:00+02:00",
     "image_path": "images/game_night.png",
     "title": "Spelletjesavond",
     "activity_date": "24-10-2026"
   },
   {
     "image_id": "gift_044",
-    "open_at": "2026-10-23T20:00:00+01:00",
+    "open_at": "2026-10-23T20:00:00+02:00",
     "image_path": "images/bioscoop.webp",
     "title": "Bioscoop",
     "activity_date": "31-10-2026"
